@@ -45,3 +45,9 @@ Games can be won in the following ways:
 Ways that a draw can happen:
 - Stalemate: The player whose turn it is to move has no legal move and is not in check.
 - Draw by agreement
+
+## Technologies Used
+
+- HTML
+- CSS
+- JavaScript
