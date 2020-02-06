@@ -16,10 +16,10 @@ body {
     top: 0;
     width: 100%;
     font-size: 50px;
-    color: #4666FF;
+    color: #00FF66;
     margin: auto;
     margin-top: 0;
-    border-bottom: 3px solid #4666FF;
+    border-bottom: 3px solid #bc13fe;
 }
 
 .board {
@@ -40,7 +40,7 @@ body {
     position: fixed;
     right: 0;
     width: 200px;
-    border: 3px solid #4666FF;
+    border: 3px solid #bc13fe;
     height: 508px;
     margin-right: 110px;
 }
@@ -50,7 +50,7 @@ body {
     bottom: 0;
     width: 65%;
     text-align: center;
-    border: 3px solid #4666FF;
+    border: 3px solid #bc13fe;
     margin: auto;
     margin-bottom: 1.02%;
     color: #00FF66;
@@ -58,8 +58,8 @@ body {
 }
 .reset_button {
     float: right;
-    border: 2px solid #4666FF;
-    color: #4666FF;
+    border: 2px solid #ff073a;
+    color: #ff073a;
     background-color: black;
     outline: none;
     text-transform: uppercase;
@@ -67,8 +67,7 @@ body {
 }
 
 .reset_button:hover {
-    color: #ff073a;
-    border: 2px solid #ff073a;
+    cursor: pointer;
 }
 
 h4 {
