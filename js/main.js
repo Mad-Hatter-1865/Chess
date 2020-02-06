@@ -46,11 +46,16 @@ function render() {
     board.forEach(function(rowArr, rowidx){
         rowArr.forEach(function(cell, colidx){
             let td = document.getElementById(`r${8-rowidx}c${1+colidx}`);
-            let currrow = 8 - rowidx;
-            let currcol = 1 + colidx;
-            
-            if(currrow % 2) {
-                if(!(currcol % 2)) {
+            let currRow = 8 - rowidx;
+            let currCol = 1 + colidx;
+
+            /*
+              Lines 57 through 72 will check currRow and currCol(The two variables represent the indexes of the 
+              board array) and determine the correct border color of the variable td(Variable represents
+              a square on the board) based off the values of currRow and currCol.
+            */
+            if(currRow % 2) {
+                if(!(currCol % 2)) {
                     td.style.borderColor = '#0eecb3';
                 }
                 else {
@@ -58,7 +63,7 @@ function render() {
                 }
             }
             else{
-                if(currcol % 2){
+                if(currCol % 2){
                     td.style.borderColor = '#0eecb3';
                 }
                 else {
