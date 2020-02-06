@@ -22,7 +22,7 @@ let board, turn, winner;
 const msgEl = document.getElementById("msg");
 
 /* ------- event listeners --------*/
-
+document.querySelector('table.board').addEventListener('click',selectPiece);
 /*-------- functions -------*/
 init();
 function init() {
@@ -109,4 +109,21 @@ function render() {
             }
         });
     });
+
+    if(winner === 1) {
+        msgEl.textContent = "Player Green has won. Click the Reset Button to Play Again.";
+    }
+    else if(winner === -1){
+        msgEl.textContent = "Player Purple has won. Click the Reset Button to Play Again.";
+    }
+    else {
+        msgEl.textContent = `Player ${PLAYERS[turn]}'s Turn`;
+    }
+}
+
+function selectPiece(evt) {
+    let rowIdx = evt.target.id[1];
+    let colIdx = evt.target.id[3];
+    let selectedSquare = document.getElementById(`r${rowIdx}c${colIdx}`);
+    console.log(selectedSquare);
 }
