@@ -16,13 +16,13 @@ const PLAYERS = {
 };
 
 /*----- app's state (variables) ------*/
-let board, turn, winner;
+let board, turn, winner, slctStat;
 
 /*------ cached element references ------*/
 const msgEl = document.getElementById("msg");
 
 /* ------- event listeners --------*/
-document.querySelector('table.board').addEventListener('click',selectPiece);
+document.querySelector('table.board').addEventListener('click',selectSquare);
 /*-------- functions -------*/
 init();
 function init() {
@@ -121,9 +121,15 @@ function render() {
     }
 }
 
-function selectPiece(evt) {
+function selectSquare(evt) {
     let rowIdx = evt.target.id[1];
     let colIdx = evt.target.id[3];
     let selectedSquare = document.getElementById(`r${rowIdx}c${colIdx}`);
+    selectedSquare = selectedSquare.style.border = "4px solid #f535aa";
+    slctStat = true;
     console.log(selectedSquare);
+}
+
+function reset() {
+    init();
 }
