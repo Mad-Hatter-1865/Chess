@@ -16,7 +16,7 @@ const PLAYERS = {
 };
 
 /*----- app's state (variables) ------*/
-let board, turn, winner, slctStat;
+let board, turn, winner, slctStat, orgnlSelectedSquareClr;
 
 /*------ cached element references ------*/
 const msgEl = document.getElementById("msg");
@@ -125,11 +125,32 @@ function selectSquare(evt) {
     let rowIdx = evt.target.id[1];
     let colIdx = evt.target.id[3];
     let selectedSquare = document.getElementById(`r${rowIdx}c${colIdx}`);
-    selectedSquare = selectedSquare.style.border = "4px solid #f535aa";
+    if(selectedSquare.innerHTML === '' || (turn !== turn * -1 && Math.sign(board[8-rowIdx][colIdx-1]) === turn * -1 )) {
+        return;
+    }
+    else if(slctStat === true){
+        console.log(selectedSquare.style.borderColor);
+        if(selectedSquare.style.borderColor === 'rgb(245, 53, 170)') {
+            selectedSquare.style.borderColor = orgnlSelectedSquareClr;
+            slctStat = false;
+            return;
+        }
+        else {
+            return;
+        }
+    }
+    else{
+        orgnlSelectedSquareClr = selectedSquare.style.borderColor;
+        console.log(orgnlSelectedSquareClr);
+        selectedSquare.style.border = "4px solid #f535aa";
+        console.log(selectedSquare);
+    }
     slctStat = true;
-    console.log(selectedSquare);
 }
 
+
+
 function reset() {
+    slctStat = false;
     init();
 }
