@@ -177,10 +177,46 @@ function selectSquare(evt) {
         selectedSquare.style.border = "4px solid #f535aa";
         pieceType = Math.abs(board[8-rowIdx][colIdx-1]);
         console.log(pieceType);
+        console.log(selectedSquare);
+        //console.log(rowIdx);
+        showPath(pieceType,rowIdx,colIdx);
         slctStat = true;
     }
 }
 
+function showPath(pt,rIdx,cIdx) {
+    rIdx = parseInt(rIdx);
+    cIdx = parseInt(cIdx);
+    let path;
+    let i;
+    if(pt === 1) {
+        if(Math.sign(turn) === 1) {
+            if(rIdx === 2) {
+                for(i = rIdx +1; i<= rIdx + 2; i++) {
+                    path = document.getElementById(`r${i}c${cIdx}`);
+                    console.log(path);
+                    if(path.innerHTML !== '') {
+                        break;
+                    }
+                    path.style.border = "4px solid #fbaed2";
+                }
+            }
+            else{
+                i = rIdx + 1;
+                path = document.getElementById(`r${i}c${cIdx}`);
+                if(path.innerHTML !== ''){
+                    // Do nothing
+                }
+                else{
+                    path.style.border = "4px solid #fbaed2";
+                }
+            }
+        }
+    }
+    else {
+        return;
+    }
+}
 
 function reset() {
     init();
