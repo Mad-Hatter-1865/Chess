@@ -130,6 +130,7 @@ function render() {
 function selectSquare(evt) {
     let rowIdx = evt.target.id[1];
     let colIdx = evt.target.id[3];
+    let pieceType;
     let selectedSquare = document.getElementById(`r${rowIdx}c${colIdx}`);
     /*
          The if statement below checks the square that the user clicked to see if it is either empty
@@ -174,9 +175,12 @@ function selectSquare(evt) {
     else{
         orgnlSelectedSquareClr = selectedSquare.style.borderColor;
         selectedSquare.style.border = "4px solid #f535aa";
+        pieceType = Math.abs(board[8-rowIdx][colIdx-1]);
+        console.log(pieceType);
         slctStat = true;
     }
 }
+
 
 function reset() {
     init();
