@@ -122,6 +122,8 @@ function render() {
     }
 }
 
+
+
 /*
     The selectSquare function allows the player to select one of their pieces by clicking the 
     square that contains that piece(Once a square has been clicked, the border of that square will be highlighted), 
@@ -155,6 +157,7 @@ function selectSquare(evt) {
         */
         if(selectedSquare.style.borderColor === 'rgb(245, 53, 170)') {
             selectedSquare.style.borderColor = orgnlSelectedSquareClr;
+            render();
             slctStat = false;
             return;
         }
@@ -178,29 +181,42 @@ function selectSquare(evt) {
         pieceType = Math.abs(board[8-rowIdx][colIdx-1]);
         console.log(pieceType);
         console.log(selectedSquare);
-        //console.log(rowIdx);
         showPath(pieceType,rowIdx,colIdx);
         slctStat = true;
     }
 }
 
+
+/*
+    The showPath function will display a path of highlighted squares that represent where the selected piece
+    can be moved to. If one of these squares contain an opponent's piece then that square will be highlighted
+    red. This function is called in the selectSquare function.
+*/
 function showPath(pt,rIdx,cIdx) {
     rIdx = parseInt(rIdx);
     cIdx = parseInt(cIdx);
     let path;
     let i;
+    /* The if statement below checks the value of pt which reprensents the type of piece
+        that the square contains, in this case, a pawn.
+     */
     if(pt === 1) {
+        /* The if statement below checks the value of turn to see if it is equal to one
+         so that the code inside of this if statement will only affect the green pawns.
+        */
         if(Math.sign(turn) === 1) {
+            /* The if statement below checks to see if the pawn is on row 2 */
             if(rIdx === 2) {
+                /* The for loop below will create the path. The for loop exits if a piece is obstructing the path */
                 for(i = rIdx +1; i<= rIdx + 2; i++) {
                     path = document.getElementById(`r${i}c${cIdx}`);
-                    console.log(path);
                     if(path.innerHTML !== '') {
                         break;
                     }
                     path.style.border = "4px solid #fbaed2";
                 }
             }
+            /* The else statement below is called when the pawn selected is not on row 2 */
             else{
                 i = rIdx + 1;
                 path = document.getElementById(`r${i}c${cIdx}`);
@@ -210,6 +226,48 @@ function showPath(pt,rIdx,cIdx) {
                 else{
                     path.style.border = "4px solid #fbaed2";
                 }
+            }
+            /*  Lines 233 - 241 will highlight the two diagonally above squares red if they are
+                occupied by an opponent's piece.
+             */
+            i = rIdx + 1;
+            let leftTop = document.getElementById(`r${i}c${cIdx-1}`);
+            let rightTop = document.getElementById(`r${i}c${cIdx+1}`);
+            if(Math.sign(board[8-rIdx-1][cIdx-2]) === -1) {
+                leftTop.style.border = "4px solid #ff073a";
+            }
+            if(Math.sign(board[8-rIdx-1][cIdx]) === -1) {
+                rightTop.style.border = "4px solid #ff073a";
+            }
+        }
+        else{
+            if(rIdx === 7) {
+                for(i = rIdx -1; i>= rIdx - 2; i--) {
+                    path = document.getElementById(`r${i}c${cIdx}`);
+                    if(path.innerHTML !== '') {
+                        break;
+                    }
+                    path.style.border = "4px solid #fbaed2";
+                }
+            }
+            else{
+                i = rIdx - 1;
+                path = document.getElementById(`r${i}c${cIdx}`);
+                if(path.innerHTML !== ''){
+                    // Do nothing
+                }
+                else{
+                    path.style.border = "4px solid #fbaed2";
+                }
+            }
+            i = rIdx - 1;
+            let leftBottom = document.getElementById(`r${i}c${cIdx-1}`);
+            let rightBottom = document.getElementById(`r${i}c${cIdx+1}`);
+            if(Math.sign(board[8-rIdx+1][cIdx-2]) === 1) {
+                leftBottom.style.border = "4px solid #ff073a";
+            }
+            if(Math.sign(board[8-rIdx+1][cIdx]) === 1) {
+                rightBottom.style.border = "4px solid #ff073a";
             }
         }
     }
