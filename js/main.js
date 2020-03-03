@@ -197,6 +197,7 @@ function showPath(pt,rIdx,cIdx) {
     cIdx = parseInt(cIdx);
     let path;
     let i;
+    let c;
     /* The if statement below checks the value of pt which reprensents the type of piece
         that the square contains, in this case, a pawn.
      */
@@ -219,6 +220,9 @@ function showPath(pt,rIdx,cIdx) {
             /* The else statement below is called when the pawn selected is not on row 2 */
             else{
                 i = rIdx + 1;
+                if(i > 8){
+                    return;
+                }
                 path = document.getElementById(`r${i}c${cIdx}`);
                 if(path.innerHTML !== ''){
                     // Do nothing
@@ -277,6 +281,141 @@ function showPath(pt,rIdx,cIdx) {
                 rightBottom.style.border = "4px solid #ff073a";
             }
         }
+    }
+    /*
+        The else if statement below checks the value of pt which represents the type of piece
+        that the square contains, in this case, the king. 
+    */
+    else if(pt === 2){
+        let leftTop = document.getElementById(`r${rIdx+1}c${cIdx-1}`);
+        let left = document.getElementById(`r${rIdx}c${cIdx-1}`);
+        let leftBottom = document.getElementById(`r${rIdx-1}c${cIdx-1}`);
+        let rightBottom = document.getElementById(`r${rIdx-1}c${cIdx+1}`);
+        let right = document.getElementById(`r${rIdx}c${cIdx+1}`);
+        let rightTop = document.getElementById(`r${rIdx+1}c${cIdx+1}`);
+        let top = document.getElementById(`r${rIdx+1}c${cIdx}`);
+        let bottom = document.getElementById(`r${rIdx-1}c${cIdx}`);
+        /* Lines 299 - 312 will highlight the bottom left square the appropriate color */
+        if(leftBottom == undefined){
+            // Do nothing
+        }
+        else {
+            if(Math.sign(board[8-rIdx+1][cIdx-2]) === 0){
+                leftBottom.style.border = "4px solid #fbaed2";
+            }
+            else if(Math.sign(board[8-rIdx+1][cIdx-2]) === turn){
+                // Do nothing
+            }
+            else{
+                leftBottom.style.border = "4px solid #ff073a";
+            }
+        }
+        /* Lines 314 - 327 will highlight the left square the appropriate color */
+        if(left == undefined){
+            // Do nothing
+        }
+        else{
+            if(Math.sign(board[8-rIdx][cIdx-2]) === 0){
+                left.style.border = "4px solid #fbaed2";
+            }
+            else if(Math.sign(board[8-rIdx][cIdx-2]) === turn){
+                // Do nothing
+            }
+            else{
+                left.style.border = "4px solid #ff073a";
+            }
+        }
+        /* Lines 329 - 342 will highlight the bottom right square the appropriate color */
+        if(rightBottom == undefined){
+            // Do nothing
+        }
+        else{
+            if(Math.sign(board[8-rIdx+1][cIdx]) === 0){
+                rightBottom.style.border = "4px solid #fbaed2";
+            }
+            else if(Math.sign(board[8-rIdx+1][cIdx]) === turn){
+                // Do nothing
+            }
+            else{
+                rightBottom.style.border = "4px solid #ff073a";
+            }
+        }
+        /* Lines 344 - 357 will highlight the right square the appropriate color */
+        if(right == undefined){
+            // Do nothing
+        }
+        else{
+            if(Math.sign(board[8-rIdx][cIdx]) === 0){
+                right.style.border = "4px solid #fbaed2";
+            }
+            else if(Math.sign(board[8-rIdx][cIdx]) === turn){
+                // Do nothing
+            }
+            else{
+                right.style.border = "4px solid #ff073a";
+            }
+        }
+        /* Lines 359 - 372 will highlight the bottom left square the appropriate color */
+        if(bottom == undefined){
+            // Do nothing
+        }
+        else{
+            if(Math.sign(board[8-rIdx+1][cIdx-1]) === 0){
+                bottom.style.border = "4px solid #fbaed2";
+            }
+            else if(Math.sign(board[8-rIdx+1][cIdx-1]) === turn){
+                // Do nothing
+            }
+            else{
+                bottom.style.border = "4px solid #ff073a";
+            }
+        }
+        /* Lines 374 - 387 will highlight the top left square the appropriate color */
+        if(leftTop == undefined){
+            // Do nothing
+        }
+        else{
+            if(Math.sign(board[8-rIdx-1][cIdx-2]) === 0){
+                leftTop.style.border = "4px solid #fbaed2";
+            }
+            else if(Math.sign(board[8-rIdx-1][cIdx-2]) === turn){
+                // Do nothing
+            }
+            else{
+                leftTop.style.border = "4px solid #ff073a";
+            }
+        }
+        /* Lines 389 - 402 will highlight the top right square the appropriate color */
+        if(rightTop == undefined){
+            // Do nothing
+        }
+        else{
+            if(Math.sign(board[8-rIdx-1][cIdx]) === 0){
+                rightTop.style.border = "4px solid #fbaed2";
+            }
+            else if(Math.sign(board[8-rIdx-1][cIdx]) === turn){
+                // Do nothing
+            }
+            else{
+                rightTop.style.border = "4px solid #ff073a";
+            }
+        }
+        /* Lines 404 - 417 will highlight the top square the appropriate color */
+        if(top == undefined){
+            // Do nothing
+        }
+        else{
+            if(Math.sign(board[8-rIdx-1][cIdx-1]) === 0){
+                top.style.border = "4px solid #fbaed2";
+            }
+            else if(Math.sign(board[8-rIdx-1][cIdx-1]) === turn){
+                // Do nothing
+            }
+            else{
+                top.style.border = "4px solid #ff073a";
+            }
+        }
+
     }
     else {
         return;
