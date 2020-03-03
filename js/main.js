@@ -240,8 +240,11 @@ function showPath(pt,rIdx,cIdx) {
                 rightTop.style.border = "4px solid #ff073a";
             }
         }
+        /* The code in the esle statement below affects purple pawns */
         else{
+            /* The if statement below checks to see if the pawn is on row 7 */
             if(rIdx === 7) {
+                /* The for loop below will create the path. The for loop exits if a piece is obstructing the path */
                 for(i = rIdx -1; i>= rIdx - 2; i--) {
                     path = document.getElementById(`r${i}c${cIdx}`);
                     if(path.innerHTML !== '') {
@@ -250,6 +253,7 @@ function showPath(pt,rIdx,cIdx) {
                     path.style.border = "4px solid #fbaed2";
                 }
             }
+            /* The else statement below is called when the pawn selected is not on row 7 */
             else{
                 i = rIdx - 1;
                 path = document.getElementById(`r${i}c${cIdx}`);
@@ -260,6 +264,9 @@ function showPath(pt,rIdx,cIdx) {
                     path.style.border = "4px solid #fbaed2";
                 }
             }
+            /*  Lines 270 - 278 will highlight the two diagonally bottom squares red if they are
+                occupied by an opponent's piece.
+             */
             i = rIdx - 1;
             let leftBottom = document.getElementById(`r${i}c${cIdx-1}`);
             let rightBottom = document.getElementById(`r${i}c${cIdx+1}`);
