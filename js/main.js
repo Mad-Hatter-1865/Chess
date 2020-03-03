@@ -417,6 +417,121 @@ function showPath(pt,rIdx,cIdx) {
         }
 
     }
+    else if(pt === 3){
+        // Squares above Queen
+        for(i = rIdx+1; i<=8;i++){
+            path = document.getElementById(`r${i}c${cIdx}`);
+            if(Math.sign(board[8-i][cIdx-1]) === 0){
+                path.style.border = "4px solid #fbaed2";
+            }
+            else if(Math.sign(board[8-i][cIdx-1]) === turn){
+                break;
+            }
+            else{
+                path.style.border = "4px solid #ff073a";
+                break;
+            }
+        }
+        // Squares below Queen
+        for(i = rIdx-1; i>=1;i--){
+            path = document.getElementById(`r${i}c${cIdx}`);
+            if(Math.sign(board[8-i][cIdx-1]) === 0){
+                path.style.border = "4px solid #fbaed2";
+            }
+            else if(Math.sign(board[8-i][cIdx-1]) === turn){
+                break;
+            }
+            else{
+                path.style.border = "4px solid #ff073a";
+                break;
+            }
+        }
+        // Squares to the right of Queen
+        for(i = cIdx+1; i<=8; i++){
+            path = document.getElementById(`r${rIdx}c${i}`);
+            if(Math.sign(board[8-rIdx][i-1]) === 0){
+                path.style.border = "4px solid #fbaed2";
+            }
+            else if(Math.sign(board[8-rIdx][i-1]) === turn){
+                break;
+            }
+            else{
+                path.style.border = "4px solid #ff073a";
+                break;
+            }
+        }
+        // Squares to the left of Queen
+        for(i= cIdx-1;i>=1;i--){
+            path = document.getElementById(`r${rIdx}c${i}`);
+            if(Math.sign(board[8-rIdx][i-1]) === 0){
+                path.style.border = "4px solid #fbaed2";
+            }
+            else if(Math.sign(board[8-rIdx][i-1]) === turn){
+                break;
+            }
+            else{
+                path.style.border = "4px solid #ff073a";
+                break;
+            }
+        }
+        // Upper right diagnal squares
+        for(i = rIdx+1, c = cIdx+1; i<=8 && c<=8; i++,c++){
+            path = document.getElementById(`r${i}c${c}`);
+            if(Math.sign(board[8-i][c-1]) === 0){
+                path.style.border = "4px solid #fbaed2";
+            }
+            else if(Math.sign(board[8-i][c-1]) === turn){
+                break;
+            }
+            else{
+                path.style.border = "4px solid #ff073a";
+                break;
+            }
+        }
+        // Upper left diagnal squares
+        for(i = rIdx+1, c= cIdx-1; i<=8 && c>=1; i++,c--){
+            path = document.getElementById(`r${i}c${c}`);
+            if(Math.sign(board[8-i][c-1]) === 0){
+                path.style.border = "4px solid #fbaed2";
+            }
+            else if(Math.sign(board[8-i][c-1]) === turn){
+                break;
+            }
+            else{
+                path.style.border = "4px solid #ff073a";
+                break;
+            }
+        }
+        // Bottom left diagonal squares
+        for(i = rIdx-1, c = cIdx-1; i>=1 && c>=1; i--,c--){
+            path = document.getElementById(`r${i}c${c}`);
+            if(Math.sign(board[8-i][c-1]) === 0){
+                path.style.border = "4px solid #fbaed2";
+            }
+            else if(Math.sign(board[8-i][c-1]) === turn){
+                break;
+            }
+            else{
+                path.style.border = "4px solid #ff073a";
+                break;
+            }
+        }
+        // Bottom right diagonal squares
+        for(i = rIdx-1, c = cIdx+1; i>=1 && c<=8;i--,c++){
+            path = document.getElementById(`r${i}c${c}`);
+            if(Math.sign(board[8-i][c-1]) === 0){
+                path.style.border = "4px solid #fbaed2";
+            }
+            else if(Math.sign(board[8-i][c-1]) === turn){
+                break;
+            }
+            else{
+                path.style.border = "4px solid #ff073a";
+                break;
+            }
+        }
+
+    }
     else {
         return;
     }
