@@ -16,7 +16,7 @@ const PLAYERS = {
 };
 
 /*----- app's state (variables) ------*/
-let board, turn, winner, slctStat, orgnlSelectedSquareClr;
+let board, turn, winner, slctStat, orgnlSelectedSquareClr, pieceType, ornglr, ornglc;
 
 /*------ cached element references ------*/
 const msgEl = document.getElementById("msg");
@@ -108,6 +108,9 @@ function render() {
             if(cell === -6) {
                 td.innerHTML = "<img src='images/Rook2.png' width=30 height=30 name='pieces'>";
             }
+            if(cell === 0){
+                td.innerHTML = '';
+            }
         });
     });
 
@@ -132,14 +135,16 @@ function render() {
 function selectSquare(evt) {
     let rowIdx = evt.target.id[1];
     let colIdx = evt.target.id[3];
-    let pieceType;
+    //let pieceType;
     let selectedSquare = document.getElementById(`r${rowIdx}c${colIdx}`);
+    //console.log(selectedSquare);
+   // console.log(selectedSquare.style.borderColor);
     /*
          The if statement below checks the square that the user clicked to see if it is either empty
          or if it contains an opponent's piece. If one of these statements are true then the
          funtion will exit and no changes will be made.
     */
-    if(selectedSquare.innerHTML === '' || (turn !== turn * -1 && Math.sign(board[8-rowIdx][colIdx-1]) === turn * -1 )) {
+    if((selectedSquare.innerHTML === '' && slctStat === false) || (turn !== turn * -1 && Math.sign(board[8-rowIdx][colIdx-1]) === turn * -1 && slctStat === false )) {
         return;
     }
     /*
@@ -161,6 +166,14 @@ function selectSquare(evt) {
             slctStat = false;
             return;
         }
+        else if(selectedSquare.style.borderColor === 'rgb(251, 174, 210)' || selectedSquare.style.borderColor === 'rgb(255, 7, 58)'){
+            board[8-rowIdx][colIdx-1] = pieceType * turn;
+            board[ornglr][ornglc] = 0;
+            turn*=-1;
+            render();
+            slctStat = false;
+            return;
+        }
         /*
              If the player clicks on one of their squares that is not currently selected then no changes will be made
              and the funtion will exit. This prevents the player from being able to have multiple pieces selected at 
@@ -178,9 +191,11 @@ function selectSquare(evt) {
     else{
         orgnlSelectedSquareClr = selectedSquare.style.borderColor;
         selectedSquare.style.border = "4px solid #f535aa";
+        ornglr = 8-rowIdx;
+        ornglc = colIdx-1;
         pieceType = Math.abs(board[8-rowIdx][colIdx-1]);
-        console.log(pieceType);
-        console.log(selectedSquare);
+        console.log("Picetype: " + pieceType);
+        //console.log(selectedSquare);
         showPath(pieceType,rowIdx,colIdx);
         slctStat = true;
     }
@@ -733,7 +748,7 @@ function showPath(pt,rIdx,cIdx) {
         }
     }
     /* The else statement below creates the path for the rook */
-    else {
+    else if(pt === 6) {
         // Squares above Rook
         for(i = rIdx+1; i<=8;i++){
             path = document.getElementById(`r${i}c${cIdx}`);
@@ -792,6 +807,7 @@ function showPath(pt,rIdx,cIdx) {
         }
     }
 }
+
 
 function reset() {
     init();
