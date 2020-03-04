@@ -598,6 +598,10 @@ function showPath(pt,rIdx,cIdx) {
             }
         }
     }
+    /*
+        The else if statement below checks the value of pt which represents the type of piece
+        that the square contains, in this case, the knight. 
+    */
     else if(pt === 5){
         let rightTop = document.getElementById(`r${rIdx+2}c${cIdx+1}`);
         let rightMid = document.getElementById(`r${rIdx+1}c${cIdx+2}`);
@@ -728,8 +732,9 @@ function showPath(pt,rIdx,cIdx) {
             }
         }
     }
+    /* The else statement below creates the path for the rook */
     else {
-        // Squares above Queen
+        // Squares above Rook
         for(i = rIdx+1; i<=8;i++){
             path = document.getElementById(`r${i}c${cIdx}`);
             if(Math.sign(board[8-i][cIdx-1]) === 0){
@@ -743,7 +748,7 @@ function showPath(pt,rIdx,cIdx) {
                 break;
             }
         }
-        // Squares below Queen
+        // Squares below Rook
         for(i = rIdx-1; i>=1;i--){
             path = document.getElementById(`r${i}c${cIdx}`);
             if(Math.sign(board[8-i][cIdx-1]) === 0){
@@ -757,7 +762,7 @@ function showPath(pt,rIdx,cIdx) {
                 break;
             }
         }
-        // Squares to the right of Queen
+        // Squares to the right of Rook
         for(i = cIdx+1; i<=8; i++){
             path = document.getElementById(`r${rIdx}c${i}`);
             if(Math.sign(board[8-rIdx][i-1]) === 0){
@@ -771,7 +776,7 @@ function showPath(pt,rIdx,cIdx) {
                 break;
             }
         }
-        // Squares to the left of Queen
+        // Squares to the left of Rook
         for(i= cIdx-1;i>=1;i--){
             path = document.getElementById(`r${rIdx}c${i}`);
             if(Math.sign(board[8-rIdx][i-1]) === 0){
