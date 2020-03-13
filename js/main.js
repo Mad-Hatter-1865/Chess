@@ -33,7 +33,7 @@ function init() {
         [0,0,0,0,0,0,0,0],
         [0,0,0,2,0,0,0,0],
         [0,0,0,0,0,0,0,0],
-        [1,1,1,1,1,1,1,1],
+        [1,-3,1,1,1,1,1,1],
         [6,5,4,3,0,4,5,6]
     ];
 
@@ -970,7 +970,66 @@ function kingSurrounding(rIdx,cIdx){
             break;
         }
     }
-
+  // Check for Queen and Bishops in the upper right
+  for(r = rIdx, c = cIdx; r>=0 && c<=8; r--,c++){
+        if((board[r][c] === 3*turn*-1 || board[r][c] === 4*turn*-1) && r === rIdx){
+         // Do nothing
+        }
+        else if(board[r][c] === 3*turn*-1 || board[r][c] === 4*turn*-1){
+         return true;
+        }
+        else if(Math.sign(board[r][c]) === turn && board[r][c] !== 2*turn){
+         break;
+        }
+        else if(Math.sign(board[r][c]) === -1*turn){
+            break;
+        }
+    }
+ // Check for Queen and Bishops in the upper left
+ for(r = rIdx, c= cIdx; r>=0 && c>=0; r--,c--){
+        if((board[r][c] === 3*turn*-1 || board[r][c] === 4*turn*-1) && r === rIdx){
+            // Do nothing
+        }
+        else if(board[r][c] === 3*turn*-1 || board[r][c] === 4*turn*-1){
+            return true;
+        }
+        else if(Math.sign(board[r][c]) === turn && board[r][c] !== 2*turn){
+            break;
+        }
+        else if(Math.sign(board[r][c]) === -1*turn){
+           break;
+        }
+    }
+ //Check for Queen and Bishops in the bottom right
+ for(r = rIdx, c = cIdx; r<8 && c<8; r++,c++){
+        if((board[r][c] === 3*turn*-1 || board[r][c] === 4*turn*-1) && r === rIdx){
+            // Do nothing
+        }
+        else if(board[r][c] === 3*turn*-1 || board[r][c] === 4*turn*-1){
+            return true;
+        }
+        else if(Math.sign(board[r][c]) === turn && board[r][c] !== 2*turn){
+            break;
+        }
+         else if(Math.sign(board[r][c]) === -1*turn){
+           break;
+        }
+    }
+ // Check for Queen and Bishops in the bottom left
+ for(r = rIdx, c = cIdx; r<8 && c>=0; r++,c--){
+        if((board[r][c] === 3*turn*-1 || board[r][c] === 4*turn*-1) && r === rIdx){
+            // Do nothing
+        }
+        else if(board[r][c] === 3*turn*-1 || board[r][c] === 4*turn*-1){
+            return true;
+         }
+        else if(Math.sign(board[r][c]) === turn && board[r][c] !== 2*turn){
+            break;
+         }
+        else if(Math.sign(board[r][c]) === -1*turn){
+           break;
+        }
+    }
 }
 
 
