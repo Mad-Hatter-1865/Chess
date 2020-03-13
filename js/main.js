@@ -16,7 +16,7 @@ const PLAYERS = {
 };
 
 /*----- app's state (variables) ------*/
-let board, turn, winner, slctStat, orgnlSelectedSquareClr, pieceType, ornglr, ornglc;
+let board, turn, winner, slctStat, orgnlSelectedSquareClr, pieceType, ornglr, ornglc, check, checkMate;
 
 /*------ cached element references ------*/
 const msgEl = document.getElementById("msg");
@@ -27,18 +27,20 @@ document.querySelector('table.board').addEventListener('click',selectSquare);
 init();
 function init() {
     board = [
-        [-6,-5,-4,-3,-2,-4,-5,-6],
-        [-1,-1,-1,-1,-1,-1,-1,-1],
+        [-6,-5,-4,0,-2,-4,-5,-6],
+        [-1,-1,-1,0,-1,-1,-1,-1],
         [0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,2,0,-1,-3],
         [0,0,0,0,0,0,0,0],
         [1,1,1,1,1,1,1,1],
-        [6,5,4,3,2,4,5,6]
+        [6,5,4,3,0,4,5,6]
     ];
 
     turn = 1;
     winner = null;
+    check = null;
+    checkMate = null;
     slctStat = false;
     render();
 }
@@ -120,6 +122,12 @@ function render() {
     else if(winner === -1){
         msgEl.textContent = "Player Purple has won. Click the Reset Button to Play Again.";
     }
+    else if(turn === 1 && check === true){
+        msgEl.textContent = "Player Green's turn. You are currently in check."
+    }
+    else if(turn === -1 && check === true){
+        msgEl.textContent = "Player Purple's turn. You are currently in check."
+    }
     else {
         msgEl.textContent = `Player ${PLAYERS[turn]}'s Turn`;
     }
@@ -135,10 +143,8 @@ function render() {
 function selectSquare(evt) {
     let rowIdx = evt.target.id[1];
     let colIdx = evt.target.id[3];
-    //let pieceType;
     let selectedSquare = document.getElementById(`r${rowIdx}c${colIdx}`);
-    //console.log(selectedSquare);
-   // console.log(selectedSquare.style.borderColor);
+  
     /*
          The if statement below checks the square that the user clicked to see if it is either empty
          or if it contains an opponent's piece. If one of these statements are true then the
@@ -170,6 +176,8 @@ function selectSquare(evt) {
             board[8-rowIdx][colIdx-1] = pieceType * turn;
             board[ornglr][ornglc] = 0;
             turn*=-1;
+            //check = Check();
+            //console.log(Check());
             render();
             slctStat = false;
             return;
@@ -194,8 +202,6 @@ function selectSquare(evt) {
         ornglr = 8-rowIdx;
         ornglc = colIdx-1;
         pieceType = Math.abs(board[8-rowIdx][colIdx-1]);
-        console.log("Picetype: " + pieceType);
-        //console.log(selectedSquare);
         showPath(pieceType,rowIdx,colIdx);
         slctStat = true;
     }
@@ -315,7 +321,13 @@ function showPath(pt,rIdx,cIdx) {
             // Do nothing
         }
         else {
-            if(Math.sign(board[8-rIdx+1][cIdx-2]) === 0){
+            let ri = 8-rIdx+1;
+            let ci = cIdx-2;
+            let ks = kingSurrounding(ri, ci);
+            if(ks === true){
+                // Do nothing
+            }
+            else if(Math.sign(board[8-rIdx+1][cIdx-2]) === 0){
                 leftBottom.style.border = "4px solid #fbaed2";
             }
             else if(Math.sign(board[8-rIdx+1][cIdx-2]) === turn){
@@ -330,7 +342,14 @@ function showPath(pt,rIdx,cIdx) {
             // Do nothing
         }
         else{
-            if(Math.sign(board[8-rIdx][cIdx-2]) === 0){
+            let ri = 8-rIdx;
+            let ci = cIdx-2;
+            console.log(`${ri} ${ci}`);
+            let ks = kingSurrounding(ri, ci);
+            if(ks === true){
+                // Do nothing
+            }
+            else if(Math.sign(board[8-rIdx][cIdx-2]) === 0){
                 left.style.border = "4px solid #fbaed2";
             }
             else if(Math.sign(board[8-rIdx][cIdx-2]) === turn){
@@ -345,7 +364,13 @@ function showPath(pt,rIdx,cIdx) {
             // Do nothing
         }
         else{
-            if(Math.sign(board[8-rIdx+1][cIdx]) === 0){
+            let ri = 8-rIdx+1;
+            let ci = cIdx;
+            let ks = kingSurrounding(ri, ci);
+            if(ks === true){
+                // Do nothing
+            }
+            else if(Math.sign(board[8-rIdx+1][cIdx]) === 0){
                 rightBottom.style.border = "4px solid #fbaed2";
             }
             else if(Math.sign(board[8-rIdx+1][cIdx]) === turn){
@@ -360,7 +385,13 @@ function showPath(pt,rIdx,cIdx) {
             // Do nothing
         }
         else{
-            if(Math.sign(board[8-rIdx][cIdx]) === 0){
+            let ri = 8-rIdx;
+            let ci = cIdx;
+            let ks = kingSurrounding(ri, ci);
+            if(ks === true){
+                // Do nothing
+            }
+            else if(Math.sign(board[8-rIdx][cIdx]) === 0){
                 right.style.border = "4px solid #fbaed2";
             }
             else if(Math.sign(board[8-rIdx][cIdx]) === turn){
@@ -375,7 +406,13 @@ function showPath(pt,rIdx,cIdx) {
             // Do nothing
         }
         else{
-            if(Math.sign(board[8-rIdx+1][cIdx-1]) === 0){
+            let ri = 8-rIdx+1;
+            let ci = cIdx-1;
+            let ks = kingSurrounding(ri, ci);
+            if(ks === true){
+                // Do nothing
+            }
+            else if(Math.sign(board[8-rIdx+1][cIdx-1]) === 0){
                 bottom.style.border = "4px solid #fbaed2";
             }
             else if(Math.sign(board[8-rIdx+1][cIdx-1]) === turn){
@@ -390,7 +427,13 @@ function showPath(pt,rIdx,cIdx) {
             // Do nothing
         }
         else{
-            if(Math.sign(board[8-rIdx-1][cIdx-2]) === 0){
+            let ri = 8-rIdx-1;
+            let ci = cIdx-2;
+            let ks = kingSurrounding(ri, ci);
+            if(ks === true){
+                // Do nothing
+            }
+            else if(Math.sign(board[8-rIdx-1][cIdx-2]) === 0){
                 leftTop.style.border = "4px solid #fbaed2";
             }
             else if(Math.sign(board[8-rIdx-1][cIdx-2]) === turn){
@@ -405,7 +448,13 @@ function showPath(pt,rIdx,cIdx) {
             // Do nothing
         }
         else{
-            if(Math.sign(board[8-rIdx-1][cIdx]) === 0){
+            let ri = 8-rIdx-1;
+            let ci = cIdx;
+            let ks = kingSurrounding(ri, ci);
+            if(ks === true){
+                // Do nothing
+            }
+            else if(Math.sign(board[8-rIdx-1][cIdx]) === 0){
                 rightTop.style.border = "4px solid #fbaed2";
             }
             else if(Math.sign(board[8-rIdx-1][cIdx]) === turn){
@@ -420,7 +469,13 @@ function showPath(pt,rIdx,cIdx) {
             // Do nothing
         }
         else{
-            if(Math.sign(board[8-rIdx-1][cIdx-1]) === 0){
+            let ri = 8-rIdx-1;
+            let ci = cIdx-1;
+            let ks = kingSurrounding(ri, ci);
+            if(ks === true){
+                // Do nothing
+            }
+            else if(Math.sign(board[8-rIdx-1][cIdx-1]) === 0){
                 top.style.border = "4px solid #fbaed2";
             }
             else if(Math.sign(board[8-rIdx-1][cIdx-1]) === turn){
@@ -429,6 +484,7 @@ function showPath(pt,rIdx,cIdx) {
             else{
                 top.style.border = "4px solid #ff073a";
             }
+            //kingSurrounding(ri,ci);
         }
 
     }
@@ -806,6 +862,91 @@ function showPath(pt,rIdx,cIdx) {
             }
         }
     }
+}
+
+/* This function will check to see if any of the kings are in danger
+   Not finished yet */
+function checkStatus(){
+    let r;
+    let c;
+    let i;
+    let kingRow;
+    let kingCol;
+
+    for(r = 0; r<8;r++){
+        for(c = 0; c<8;c++){
+            if(board[r][c] === 2*turn){
+                kingRow = r;
+                kingCol = c;
+                r = 9;
+                break;
+            }
+        }
+    }
+    console.log(`${kingRow} ${kingCol}`);
+    // Check for Queen or Rook
+    for(i = kingCol+1; i<=8; i++){
+        if(board[kingRow][i] === -3*turn || board[kingRow][i] === -6*turn){
+            return true;
+        }
+        else if(board[kingRow][i] === 0){
+            // Do nothing
+        }
+        else{
+            break;
+        }
+    }
+    return false;
+}
+/* This function will prevent the king from moving to a square
+   that is in the path of an opponent's piece 
+*/
+function kingSurrounding(rIdx,cIdx){
+    let r;
+    let c;
+   // Check for pawns. PAWN IF STATEMENT REQUIRES FIX WHEN IT COMES TO OUT OF BOUND SQUARES.
+   if(board[rIdx-1][cIdx-1] === -1 || board[rIdx-1][cIdx+1] === -1){
+       return true;
+   }
+
+   // Check for Queen and Rooks on to the right of the king
+   for(c = cIdx;c<8;c++){
+       // If statement below allows king to capture piece
+       if((board[rIdx][c] === 3*turn*-1 || board[rIdx][c] === 6*turn*-1) && c === cIdx){
+            // Do nothing
+       }
+       else if(board[rIdx][c] === 3*turn*-1 || board[rIdx][c] === 6*turn*-1){
+            return true;
+       }
+       else if(Math.sign(board[rIdx][c]) === turn  && board[rIdx][c] !== 2*turn){
+           break;
+       }
+   }
+   // Check for Queen and Rooks on to the left of the king
+   for(c = cIdx; c>=0; c--){
+       if((board[rIdx][c] === 3*turn*-1 || board[rIdx][c] === 6*turn*-1) && c === cIdx){
+           // Do nothing
+       }
+       else if(board[rIdx][c] === 3*turn*-1 || board[rIdx][c] === 6*turn*-1){
+           return true;
+       }
+       else if(Math.sign(board[rIdx][c]) === turn  && board[rIdx][c] !== 2*turn){
+           break;
+       }
+   }
+
+   for(r = rIdx; r>=0; r--){
+       if((board[r][cIdx] === 3*turn*-1 || board[r][cIdx] === 6*turn*-1) && r === rIdx){
+           // Do nothing
+       }
+       else if(board[r][cIdx] === 3*turn*-1 || board[r][cIdx] === 6*turn*-1){
+           return true;
+       }
+       else if(Math.sign(board[r][cIdx]) === turn && board[r][cIdx] !== 2*turn){
+           break;
+       }
+   }
+
 }
 
 
