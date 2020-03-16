@@ -905,6 +905,7 @@ function kingSurrounding(rIdx,cIdx){
     let r;
     let c;
     let oppntPc = false;
+    
    // Check for pawns. PAWN IF STATEMENT REQUIRES FIX WHEN IT COMES TO OUT OF BOUND SQUARES.
     if(board[rIdx-1][cIdx-1] === -1 || board[rIdx-1][cIdx+1] === -1){
         return true;
@@ -1040,64 +1041,132 @@ function kingSurrounding(rIdx,cIdx){
             }
         }
     }
+    oppntPc = false;
   // Check for Queen and Bishops in the upper right
   for(r = rIdx, c = cIdx; r>=0 && c<=8; r--,c++){
         if((board[r][c] === 3*turn*-1 || board[r][c] === 4*turn*-1) && r === rIdx){
          // Do nothing
         }
         else if(board[r][c] === 3*turn*-1 || board[r][c] === 4*turn*-1){
-         return true;
+         if(oppntPc === true){
+             if(board[rIdx+1][cIdx-1] === 2*turn && Math.sign(board[rIdx][cIdx]) === -1*turn){
+                 oppntPc = false;
+                 return true;
+             }
+             else{
+                 // Do nothing
+             }
+         }
+         else{
+             return true;
+         }
         }
         else if(Math.sign(board[r][c]) === turn && board[r][c] !== 2*turn){
          break;
         }
         else if(Math.sign(board[r][c]) === -1*turn){
-            break;
+            if(oppntPc === false){
+                oppntPc = true;
+            }
+            else if(oppntPc === true){
+                break;
+            }
         }
     }
+    oppntPc = false;
  // Check for Queen and Bishops in the upper left
  for(r = rIdx, c= cIdx; r>=0 && c>=0; r--,c--){
         if((board[r][c] === 3*turn*-1 || board[r][c] === 4*turn*-1) && r === rIdx){
             // Do nothing
         }
         else if(board[r][c] === 3*turn*-1 || board[r][c] === 4*turn*-1){
-            return true;
+            if(oppntPc === true){
+                if(board[rIdx+1][cIdx+1] === 2*turn && Math.sign(board[rIdx][cIdx]) === -1*turn){
+                    oppntPc = false;
+                    return true;
+                }
+                else{
+                    // Do nothing
+                }
+            }
+            else{
+                return true;
+            }
         }
         else if(Math.sign(board[r][c]) === turn && board[r][c] !== 2*turn){
             break;
         }
         else if(Math.sign(board[r][c]) === -1*turn){
-           break;
+           if(oppntPc === false){
+               oppntPc = true;
+           }
+           else if(oppntPc === true){
+               break;
+           }
         }
     }
+    oppntPc = false;
  //Check for Queen and Bishops in the bottom right
  for(r = rIdx, c = cIdx; r<8 && c<8; r++,c++){
         if((board[r][c] === 3*turn*-1 || board[r][c] === 4*turn*-1) && r === rIdx){
             // Do nothing
         }
         else if(board[r][c] === 3*turn*-1 || board[r][c] === 4*turn*-1){
-            return true;
+            if(oppntPc === true){
+                if(board[rIdx-1][cIdx-1] === 2*turn && Math.sign(board[rIdx][cIdx]) === -1*turn){
+                    oppntPc = false;
+                    return true;
+                }
+                else{
+                    // Do nothing
+                }
+            }
+            else{
+                return true;
+            }
         }
         else if(Math.sign(board[r][c]) === turn && board[r][c] !== 2*turn){
             break;
         }
          else if(Math.sign(board[r][c]) === -1*turn){
-           break;
+           if(oppntPc === false){
+               oppntPc = true;
+           }
+           else if(oppntPc === true){
+               break;
+           }
         }
     }
+    oppntPc = false;
  // Check for Queen and Bishops in the bottom left
  for(r = rIdx, c = cIdx; r<8 && c>=0; r++,c--){
         if((board[r][c] === 3*turn*-1 || board[r][c] === 4*turn*-1) && r === rIdx){
             // Do nothing
         }
         else if(board[r][c] === 3*turn*-1 || board[r][c] === 4*turn*-1){
-            return true;
+            if(oppntPc === true){
+                if(board[rIdx-1][cIdx+1] === 2*turn && Math.sign(board[rIdx][cIdx]) === -1*turn){
+                    oppntPc = false;
+                    return true;
+                }
+                else{
+                    // Do nothing
+                }
+            }
+            else{
+                return true;
+            }
          }
         else if(Math.sign(board[r][c]) === turn && board[r][c] !== 2*turn){
             break;
          }
         else if(Math.sign(board[r][c]) === -1*turn){
-           break;
+           if(oppntPc === false){
+               oppntPc = true;
+           }
+           else if(oppntPc === true){
+               break;
+           }
         }
     }
 }
