@@ -898,6 +898,7 @@ function checkStatus(){
     }
     return false;
 }
+
 /* This function will prevent the king from moving to a square
    that is in the path of an opponent's piece 
 */
@@ -906,10 +907,33 @@ function kingSurrounding(rIdx,cIdx){
     let c;
     let oppntPc = false;
 
-   // Check for pawns. PAWN IF STATEMENT REQUIRES FIX WHEN IT COMES TO OUT OF BOUND SQUARES.
-    if(board[rIdx-1][cIdx-1] === -1 || board[rIdx-1][cIdx+1] === -1){
-        return true;
+   // Check for pawns.
+   // The code in the if statement below only affects the Green King
+   if(turn === 1){
+       // The if statement below prevents out of bounds error
+       if(rIdx-1 < 0 || (cIdx-1< 0 || cIdx+1 > 7)){
+           // Do nothing
+       }
+       else{
+           if(board[rIdx-1][cIdx-1] === -1 || board[rIdx-1][cIdx+1] === -1){
+           return true;
+          }
+       }
     }
+    // The code in the else statement belw only affects the Purple King
+    else{
+        // The if statement below prevents out of bounds error
+        if(rIdx+1 > 7 || (cIdx-1 < 0 || cIdx+1 > 7)){
+            // Do nothing
+        }
+        else{
+            if(board[rIdx+1][cIdx-1] === 1 || board[rIdx+1][cIdx+1] === 1){
+                return true;
+            }
+        }
+    }
+    
+
    
 
    // Check for Queen and Rooks on to the right of the king
