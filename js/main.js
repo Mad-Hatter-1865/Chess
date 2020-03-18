@@ -905,7 +905,7 @@ function kingSurrounding(rIdx,cIdx){
     let r;
     let c;
     let oppntPc = false;
-    
+
    // Check for pawns. PAWN IF STATEMENT REQUIRES FIX WHEN IT COMES TO OUT OF BOUND SQUARES.
     if(board[rIdx-1][cIdx-1] === -1 || board[rIdx-1][cIdx+1] === -1){
         return true;
@@ -914,12 +914,14 @@ function kingSurrounding(rIdx,cIdx){
 
    // Check for Queen and Rooks on to the right of the king
    for(c = cIdx;c<8;c++){
-       // If statement below allows king to capture piece
+       // If statement below allows king to capture piece that is right next to it
        if((board[rIdx][c] === 3*turn*-1 || board[rIdx][c] === 6*turn*-1) && c === cIdx){
             // Do nothing
        }
+       // The else if statement below if the square being looked at contains an enemy Queen or a Rook
        else if(board[rIdx][c] === 3*turn*-1 || board[rIdx][c] === 6*turn*-1){
            if(oppntPc === true){
+               // The if statement below checks to see if the square next to the king contains an enemy piece
                if(board[rIdx][cIdx-1] === 2*turn && Math.sign(board[rIdx][cIdx]) === -1*turn){
                    oppntPc = false;
                    return true;
@@ -932,9 +934,11 @@ function kingSurrounding(rIdx,cIdx){
                return true;
            }
        }
+       // The else if statement below checks to see if the current square contains a friendly piece that is not the King
        else if(Math.sign(board[rIdx][c]) === turn && board[rIdx][c] !== 2*turn){
            break;
        }
+       // The else if statement below checks if the current square contains an enemy piece
        else if(Math.sign(board[rIdx][c]) === -1*turn){
          if(oppntPc === false){
                 oppntPc = true;
