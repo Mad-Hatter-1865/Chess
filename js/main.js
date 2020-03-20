@@ -32,9 +32,9 @@ function init() {
         [0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0],
-        [1,1,1,1,1,1,1,1],
-        [6,5,4,3,2,4,5,6]
+        [-3,0,-1,0,0,0,0,0],
+        [1,1,1,2,1,1,1,1],
+        [6,5,4,3,0,4,5,6]
     ];
 
     turn = 1;
@@ -906,6 +906,7 @@ function kingSurrounding(rIdx,cIdx){
     let r;
     let c;
     let oppntPc = false;
+    let kingNear = false;
 
    // Check for pawns.
    // The code in the if statement below only affects the Green King
@@ -920,7 +921,7 @@ function kingSurrounding(rIdx,cIdx){
           }
        }
     }
-    // The code in the else statement belw only affects the Purple King
+    // The code in the else statement below only affects the Purple King
     else{
         // The if statement below prevents out of bounds error
         if(rIdx+1 > 7 || (cIdx-1 < 0 || cIdx+1 > 7)){
@@ -933,7 +934,6 @@ function kingSurrounding(rIdx,cIdx){
         }
     }
     
-
    
 
    // Check for Queen and Rooks on to the right of the king
@@ -974,15 +974,17 @@ function kingSurrounding(rIdx,cIdx){
    }
 
    oppntPc = false;
-   // Check for Queen and Rooks on to the left of the king
+   // Check for Queen and Rooks on to the left of the square
    for(c = cIdx; c>=0; c--){
        if((board[rIdx][c] === 3*turn*-1 || board[rIdx][c] === 6*turn*-1) && c === cIdx){
            // Do nothing
        }
        else if(board[rIdx][c] === 3*turn*-1 || board[rIdx][c] === 6*turn*-1){
            if(oppntPc === true){
-               if(board[rIdx][cIdx+1] === 2*turn && Math.sign(board[rIdx][cIdx]) === -1*turn){
+               kingNear = kingNby(rIdx,cIdx);
+               if(kingNear === true && Math.sign(board[rIdx][cIdx]) === -1*turn){
                    oppntPc = false;
+                   kingNear = false;
                    return true;
                }
                else{
@@ -1197,6 +1199,29 @@ function kingSurrounding(rIdx,cIdx){
            }
         }
     }
+}
+
+/* This function is called in the kingSurrounding function
+    and will 
+*/
+function kingNby(r,c){
+    // If king is directly to the right
+    if(board[r][c+1] === 2*turn) return true;
+    // If king is directly to the upper right
+    else if(board[r-1][c+1] === 2*turn) return true;
+    // If king is directly above
+    else if(board[r-1][c] === 2*turn) return true;
+    // If king is directly to the upper left
+    else if(board[r-1][c-1] === 2*turn) return true;
+    // If king is directly to the left
+    else if(board[r][c-1] === 2*turn) return true;
+    // If king is directly to the bottom left
+    else if(board[r+1][c-1] === 2*turn) return true;
+    // If king is directly to the bottom
+    else if(board[r+1][c] === 2*turn) return true;
+    // If king is directly to the bottom right
+    else if(board[r+1][c+1] === 2*turn) return true;
+    else return false;
 }
 
 
