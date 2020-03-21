@@ -1209,7 +1209,8 @@ function kingSurrounding(rIdx,cIdx){
 }
 
 /* This function is called in the kingSurrounding function
-    and will 
+    and will be used to check if there is a king next
+    to an occupied square.
 */
 function kingNby(r,c){
     // If king is directly to the right
