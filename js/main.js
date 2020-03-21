@@ -32,9 +32,9 @@ function init() {
         [0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0],
-        [-3,0,-1,0,0,0,0,0],
-        [1,1,1,2,1,1,1,1],
-        [6,5,4,3,0,4,5,6]
+        [0,0,0,0,0,0,0,0],
+        [1,1,1,1,1,1,1,1],
+        [6,5,4,3,2,4,5,6]
     ];
 
     turn = 1;
@@ -945,8 +945,9 @@ function kingSurrounding(rIdx,cIdx){
        // The else if statement below if the square being looked at contains an enemy Queen or a Rook
        else if(board[rIdx][c] === 3*turn*-1 || board[rIdx][c] === 6*turn*-1){
            if(oppntPc === true){
+               kingNear = kingNby(rIdx,cIdx);
                // The if statement below checks to see if the square next to the king contains an enemy piece
-               if(board[rIdx][cIdx-1] === 2*turn && Math.sign(board[rIdx][cIdx]) === -1*turn){
+               if(kingNear === true && Math.sign(board[rIdx][cIdx]) === -1*turn){
                    oppntPc = false;
                    return true;
                }
@@ -1015,7 +1016,8 @@ function kingSurrounding(rIdx,cIdx){
        }
        else if(board[r][cIdx] === 3*turn*-1 || board[r][cIdx] === 6*turn*-1){
            if(oppntPc === true){
-               if(board[rIdx+1][cIdx] === 2*turn && Math.sign(board[rIdx][cIdx]) === -1*turn){
+               kingNear = kingNby(rIdx,cIdx);
+               if(kingNear === true && Math.sign(board[rIdx][cIdx]) === -1*turn){
                    oppntPc = false;
                    return true;
                }
@@ -1047,7 +1049,8 @@ function kingSurrounding(rIdx,cIdx){
         }
         else if(board[r][cIdx] === 3*turn*-1 || board[r][cIdx] === 6*turn*-1){
             if(oppntPc === true){
-                if(board[rIdx-1][cIdx] === 2*turn && Math.sign(board[rIdx][cIdx]) === -1*turn){
+                kingNear = kingNby(rIdx,cIdx);
+                if(kingNear === true && Math.sign(board[rIdx][cIdx]) === -1*turn){
                     oppntPc = false;
                     return true;
                 }
@@ -1079,7 +1082,8 @@ function kingSurrounding(rIdx,cIdx){
         }
         else if(board[r][c] === 3*turn*-1 || board[r][c] === 4*turn*-1){
          if(oppntPc === true){
-             if(board[rIdx+1][cIdx-1] === 2*turn && Math.sign(board[rIdx][cIdx]) === -1*turn){
+             kingNear = kingNby(rIdx,cIdx);
+             if(kingNear === true && Math.sign(board[rIdx][cIdx]) === -1*turn){
                  oppntPc = false;
                  return true;
              }
@@ -1111,7 +1115,8 @@ function kingSurrounding(rIdx,cIdx){
         }
         else if(board[r][c] === 3*turn*-1 || board[r][c] === 4*turn*-1){
             if(oppntPc === true){
-                if(board[rIdx+1][cIdx+1] === 2*turn && Math.sign(board[rIdx][cIdx]) === -1*turn){
+                kingNear = kingNby(rIdx,cIdx);
+                if(kingNear === true && Math.sign(board[rIdx][cIdx]) === -1*turn){
                     oppntPc = false;
                     return true;
                 }
@@ -1143,7 +1148,8 @@ function kingSurrounding(rIdx,cIdx){
         }
         else if(board[r][c] === 3*turn*-1 || board[r][c] === 4*turn*-1){
             if(oppntPc === true){
-                if(board[rIdx-1][cIdx-1] === 2*turn && Math.sign(board[rIdx][cIdx]) === -1*turn){
+                kingNear = kingNby(rIdx,cIdx);
+                if(kingNear === true && Math.sign(board[rIdx][cIdx]) === -1*turn){
                     oppntPc = false;
                     return true;
                 }
@@ -1175,7 +1181,8 @@ function kingSurrounding(rIdx,cIdx){
         }
         else if(board[r][c] === 3*turn*-1 || board[r][c] === 4*turn*-1){
             if(oppntPc === true){
-                if(board[rIdx-1][cIdx+1] === 2*turn && Math.sign(board[rIdx][cIdx]) === -1*turn){
+                kingNear = kingNby(rIdx,cIdx);
+                if(kingNear === true && Math.sign(board[rIdx][cIdx]) === -1*turn){
                     oppntPc = false;
                     return true;
                 }
