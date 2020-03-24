@@ -933,7 +933,56 @@ function kingSurrounding(rIdx,cIdx){
             }
         }
     }
-    
+
+    // Check for knights
+    if(rIdx-2 < 0 || cIdx-1 < 0){
+        // Do nothing
+    }
+    else{
+        if(board[rIdx-2][cIdx-1] === 5*turn*-1) return true;
+    }
+    if(rIdx-1 < 0 || cIdx-2 < 0){
+        // Do nothing
+    }
+    else{
+        if(board[rIdx-1][cIdx-2] === 5*turn*-1) return true;     
+    }
+    if(rIdx+1 > 7 || cIdx-2 < 0){
+        // Do Nothing
+    }
+    else{
+        if(board[rIdx+1][cIdx-2] === 5*turn*-1) return true;
+    }
+    if(rIdx+2 > 7 || cIdx-1 < 0){
+        // Do nothing
+    }
+    else{
+        if(board[rIdx+2][cIdx-1] === 5*turn*-1) return true;
+    }
+    if(rIdx-2 < 0 || cIdx+1 > 7){
+        // Do Nothing
+    }
+    else{
+        if(board[rIdx-2][cIdx+1] === 5*turn*-1) return true;
+    }
+    if(rIdx-1 < 0 || cIdx+2 > 7){
+        // Do nothing
+    }
+    else{
+        if(board[rIdx-1][cIdx+2] === 5*turn*-1) return true;
+    }
+    if(rIdx+1 > 7 || cIdx+2 > 7){
+        // Do Nothing
+    }
+    else{
+        if(board[rIdx+1][cIdx+2] === 5*turn*-1) return true;
+    }
+    if(rIdx+2 > 7 || cIdx+1 > 7){
+        // Do Nothing
+    }
+    else{
+        if(board[rIdx+2][cIdx+1] === 5*turn*-1) return true;
+    }
    
 
    // Check for Queen and Rooks on to the right of the king
