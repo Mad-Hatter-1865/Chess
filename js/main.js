@@ -27,14 +27,14 @@ document.querySelector('table.board').addEventListener('click',selectSquare);
 init();
 function init() {
     board = [
-        [-6,-5,-4,-3,-2,-4,-5,-6],
+        [-6,-5,-4,-3,-2,-4,-5,2],
         [-1,-1,-1,-1,-1,-1,-1,-1],
         [0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0],
         [1,1,1,1,1,1,1,1],
-        [6,5,4,3,2,4,5,6]
+        [6,5,4,3,0,4,5,6]
     ];
 
     turn = 1;
@@ -1263,22 +1263,71 @@ function kingSurrounding(rIdx,cIdx){
 */
 function kingNby(r,c){
     // If king is directly to the right
-    if(board[r][c+1] === 2*turn) return true;
+    if(c > 7){
+        // Do nothing
+    }
+    else{
+        if(board[r][c+1] === 2*turn) return true;
+    }
+
     // If king is directly to the upper right
-    else if(board[r-1][c+1] === 2*turn) return true;
+    if(r-1 < 0 || c+1 > 7){
+        // Do Nothing
+    }
+    else{
+        if(board[r-1][c+1] === 2*turn) return true;
+    }
+
     // If king is directly above
-    else if(board[r-1][c] === 2*turn) return true;
+    if(r-1 < 0){
+        // Do nothing
+    }
+    else{
+        if(board[r-1][c] === 2*turn) return true;
+
+    }
+
     // If king is directly to the upper left
-    else if(board[r-1][c-1] === 2*turn) return true;
+    if(r-1 < 0 || c-1 < 0){
+        // Do Nothing
+    }
+    else{
+        if(board[r-1][c-1] === 2*turn) return true;
+    }
+
     // If king is directly to the left
-    else if(board[r][c-1] === 2*turn) return true;
+    if(c-1 < 0){
+        // Do Nothing
+    }
+    else{
+        if(board[r][c-1] === 2*turn) return true;
+    }
+
     // If king is directly to the bottom left
-    else if(board[r+1][c-1] === 2*turn) return true;
+    if(r+1 > 7 || c-1 < 0){
+        // Do Nothing
+    }
+    else{
+        if(board[r+1][c-1] === 2*turn) return true;
+    }
+
     // If king is directly to the bottom
-    else if(board[r+1][c] === 2*turn) return true;
+    if(r+1 > 7){
+        // Do Nothing
+    }
+    else{
+        if(board[r+1][c] === 2*turn) return true;
+    }
+
     // If king is directly to the bottom right
-    else if(board[r+1][c+1] === 2*turn) return true;
-    else return false;
+    if(r+1 > 7 || c+1 > 7){
+        // Do Nothing
+    }
+    else{
+        if(board[r+1][c+1] === 2*turn) return true;
+    }
+
+    return false;
 }
 
 
