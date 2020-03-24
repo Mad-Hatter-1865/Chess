@@ -27,14 +27,14 @@ document.querySelector('table.board').addEventListener('click',selectSquare);
 init();
 function init() {
     board = [
-        [-6,-5,-4,-3,-2,-4,-5,2],
+        [-6,-5,-4,-3,-2,-4,-5,-6],
         [-1,-1,-1,-1,-1,-1,-1,-1],
         [0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0],
         [1,1,1,1,1,1,1,1],
-        [6,5,4,3,0,4,5,6]
+        [6,5,4,3,2,4,5,6]
     ];
 
     turn = 1;
@@ -983,6 +983,10 @@ function kingSurrounding(rIdx,cIdx){
     else{
         if(board[rIdx+2][cIdx+1] === 5*turn*-1) return true;
     }
+
+    // Check for enemy king
+    let k = kingNby(rIdx,cIdx,turn*-1);
+    if(k === true) return true;
    
 
    // Check for Queen and Rooks on to the right of the king
@@ -994,7 +998,7 @@ function kingSurrounding(rIdx,cIdx){
        // The else if statement below if the square being looked at contains an enemy Queen or a Rook
        else if(board[rIdx][c] === 3*turn*-1 || board[rIdx][c] === 6*turn*-1){
            if(oppntPc === true){
-               kingNear = kingNby(rIdx,cIdx);
+               kingNear = kingNby(rIdx,cIdx,turn);
                // The if statement below checks to see if the square next to the king contains an enemy piece
                if(kingNear === true && Math.sign(board[rIdx][cIdx]) === -1*turn){
                    oppntPc = false;
@@ -1031,7 +1035,7 @@ function kingSurrounding(rIdx,cIdx){
        }
        else if(board[rIdx][c] === 3*turn*-1 || board[rIdx][c] === 6*turn*-1){
            if(oppntPc === true){
-               kingNear = kingNby(rIdx,cIdx);
+               kingNear = kingNby(rIdx,cIdx,turn);
                if(kingNear === true && Math.sign(board[rIdx][cIdx]) === -1*turn){
                    oppntPc = false;
                    kingNear = false;
@@ -1065,7 +1069,7 @@ function kingSurrounding(rIdx,cIdx){
        }
        else if(board[r][cIdx] === 3*turn*-1 || board[r][cIdx] === 6*turn*-1){
            if(oppntPc === true){
-               kingNear = kingNby(rIdx,cIdx);
+               kingNear = kingNby(rIdx,cIdx,turn);
                if(kingNear === true && Math.sign(board[rIdx][cIdx]) === -1*turn){
                    oppntPc = false;
                    return true;
@@ -1098,7 +1102,7 @@ function kingSurrounding(rIdx,cIdx){
         }
         else if(board[r][cIdx] === 3*turn*-1 || board[r][cIdx] === 6*turn*-1){
             if(oppntPc === true){
-                kingNear = kingNby(rIdx,cIdx);
+                kingNear = kingNby(rIdx,cIdx,turn);
                 if(kingNear === true && Math.sign(board[rIdx][cIdx]) === -1*turn){
                     oppntPc = false;
                     return true;
@@ -1131,7 +1135,7 @@ function kingSurrounding(rIdx,cIdx){
         }
         else if(board[r][c] === 3*turn*-1 || board[r][c] === 4*turn*-1){
          if(oppntPc === true){
-             kingNear = kingNby(rIdx,cIdx);
+             kingNear = kingNby(rIdx,cIdx,turn);
              if(kingNear === true && Math.sign(board[rIdx][cIdx]) === -1*turn){
                  oppntPc = false;
                  return true;
@@ -1164,7 +1168,7 @@ function kingSurrounding(rIdx,cIdx){
         }
         else if(board[r][c] === 3*turn*-1 || board[r][c] === 4*turn*-1){
             if(oppntPc === true){
-                kingNear = kingNby(rIdx,cIdx);
+                kingNear = kingNby(rIdx,cIdx,turn);
                 if(kingNear === true && Math.sign(board[rIdx][cIdx]) === -1*turn){
                     oppntPc = false;
                     return true;
@@ -1197,7 +1201,7 @@ function kingSurrounding(rIdx,cIdx){
         }
         else if(board[r][c] === 3*turn*-1 || board[r][c] === 4*turn*-1){
             if(oppntPc === true){
-                kingNear = kingNby(rIdx,cIdx);
+                kingNear = kingNby(rIdx,cIdx,turn);
                 if(kingNear === true && Math.sign(board[rIdx][cIdx]) === -1*turn){
                     oppntPc = false;
                     return true;
@@ -1230,7 +1234,7 @@ function kingSurrounding(rIdx,cIdx){
         }
         else if(board[r][c] === 3*turn*-1 || board[r][c] === 4*turn*-1){
             if(oppntPc === true){
-                kingNear = kingNby(rIdx,cIdx);
+                kingNear = kingNby(rIdx,cIdx,turn);
                 if(kingNear === true && Math.sign(board[rIdx][cIdx]) === -1*turn){
                     oppntPc = false;
                     return true;
@@ -1261,13 +1265,13 @@ function kingSurrounding(rIdx,cIdx){
     and will be used to check if there is a king next
     to an occupied square.
 */
-function kingNby(r,c){
+function kingNby(r,c,t){
     // If king is directly to the right
     if(c > 7){
         // Do nothing
     }
     else{
-        if(board[r][c+1] === 2*turn) return true;
+        if(board[r][c+1] === 2*t) return true;
     }
 
     // If king is directly to the upper right
@@ -1275,7 +1279,7 @@ function kingNby(r,c){
         // Do Nothing
     }
     else{
-        if(board[r-1][c+1] === 2*turn) return true;
+        if(board[r-1][c+1] === 2*t) return true;
     }
 
     // If king is directly above
@@ -1283,7 +1287,7 @@ function kingNby(r,c){
         // Do nothing
     }
     else{
-        if(board[r-1][c] === 2*turn) return true;
+        if(board[r-1][c] === 2*t) return true;
 
     }
 
@@ -1292,7 +1296,7 @@ function kingNby(r,c){
         // Do Nothing
     }
     else{
-        if(board[r-1][c-1] === 2*turn) return true;
+        if(board[r-1][c-1] === 2*t) return true;
     }
 
     // If king is directly to the left
@@ -1300,7 +1304,7 @@ function kingNby(r,c){
         // Do Nothing
     }
     else{
-        if(board[r][c-1] === 2*turn) return true;
+        if(board[r][c-1] === 2*t) return true;
     }
 
     // If king is directly to the bottom left
@@ -1308,7 +1312,7 @@ function kingNby(r,c){
         // Do Nothing
     }
     else{
-        if(board[r+1][c-1] === 2*turn) return true;
+        if(board[r+1][c-1] === 2*t) return true;
     }
 
     // If king is directly to the bottom
@@ -1316,7 +1320,7 @@ function kingNby(r,c){
         // Do Nothing
     }
     else{
-        if(board[r+1][c] === 2*turn) return true;
+        if(board[r+1][c] === 2*t) return true;
     }
 
     // If king is directly to the bottom right
@@ -1324,7 +1328,7 @@ function kingNby(r,c){
         // Do Nothing
     }
     else{
-        if(board[r+1][c+1] === 2*turn) return true;
+        if(board[r+1][c+1] === 2*t) return true;
     }
 
     return false;
