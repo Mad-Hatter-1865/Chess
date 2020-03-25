@@ -176,8 +176,8 @@ function selectSquare(evt) {
             board[8-rowIdx][colIdx-1] = pieceType * turn;
             board[ornglr][ornglc] = 0;
             turn*=-1;
-            //check = Check();
-            //console.log(Check());
+            check = checkStatus();
+            //console.log(check);
             render();
             slctStat = false;
             return;
@@ -344,7 +344,6 @@ function showPath(pt,rIdx,cIdx) {
         else{
             let ri = 8-rIdx;
             let ci = cIdx-2;
-            console.log(`${ri} ${ci}`);
             let ks = kingSurrounding(ri, ci);
             if(ks === true){
                 // Do nothing
@@ -869,7 +868,7 @@ function showPath(pt,rIdx,cIdx) {
 function checkStatus(){
     let r;
     let c;
-    let i;
+    let bool;
     let kingRow;
     let kingCol;
 
@@ -884,19 +883,9 @@ function checkStatus(){
         }
     }
     console.log(`${kingRow} ${kingCol}`);
-    // Check for Queen or Rook
-    for(i = kingCol+1; i<=8; i++){
-        if(board[kingRow][i] === -3*turn || board[kingRow][i] === -6*turn){
-            return true;
-        }
-        else if(board[kingRow][i] === 0){
-            // Do nothing
-        }
-        else{
-            break;
-        }
-    }
-    return false;
+    bool = kingSurrounding(kingRow,kingCol);
+    if(bool === true) return true;
+    else return false;
 }
 
 /* This function will prevent the king from moving to a square
