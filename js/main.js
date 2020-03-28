@@ -236,15 +236,23 @@ function showPath(pt,rIdx,cIdx) {
                     if(path.innerHTML !== '') {
                         break;
                     }
+                    // The code in the if statement below will execute when the Green King is in check.
                     if(check === true){
+                        // The square being looked at now contains a pawn
                         board[8-i][cIdx-1] = 1;
+                        // The selected square is now empty
                         board[8-rIdx][cIdx-1] = 0;
+                        // checkStatus is used to see if the king is still in check with the new layout
                         chck = checkStatus();
+                        // The code in the if statement below is executed if the Green King is still in check.
                         if(chck === true){
+                            // The two squares are now set to their previous values, and
+                            // the current iteration in the for loop is skipped.
                             board[8-i][cIdx-1] = 0;
                             board[8-rIdx][cIdx-1] = 1;
                             continue;
                         }
+                        // The two squares are now set to their previous values.
                         board[8-i][cIdx-1] = 0;
                         board[8-rIdx][cIdx-1] = 1;
                     }
@@ -261,15 +269,23 @@ function showPath(pt,rIdx,cIdx) {
                 if(path.innerHTML !== ''){
                     // Do nothing
                 }
+                // The code in the else if statement below will execute when the Green King is in check.
                 else if(check === true){
+                    // The square being looked at now contains a pawn
                     board[8-i][cIdx-1] = 1;
+                    // The selected square is now empty
                     board[8-rIdx][cIdx-1] = 0;
+                    // checkStatus is used to see if the king is still in check with the new layout
                     chck = checkStatus();
+                    // The code in the if statement below is executed if the Green King is still in check.
                     if(chck === true){
+                        // The two squares are now set to their previous values
                         board[8-i][cIdx-1] = 0;
                         board[8-rIdx][cIdx-1] = 1;
                     }
                     else{
+                        // The two squares are now set to their previous values and
+                        // the square being looked at is highlighted.
                         board[8-i][cIdx-1] = 0;
                         board[8-rIdx][cIdx-1] = 1;
                         path.style.border = "4px solid #fbaed2";
@@ -286,16 +302,25 @@ function showPath(pt,rIdx,cIdx) {
             let leftTop = document.getElementById(`r${i}c${cIdx-1}`);
             let rightTop = document.getElementById(`r${i}c${cIdx+1}`);
             if(Math.sign(board[8-rIdx-1][cIdx-2]) === -1) {
+                // The code in the if statement below will execute when the Green King is in check.
                 if(check === true){
+                    // pieceType stores the value of the original piece
                     pieceType = board[8-rIdx-1][cIdx-2];
+                    // The square being looked at now contains a pawn
                     board[8-rIdx-1][cIdx-2] = 1;
+                    // The selected square is now empty
                     board[8-rIdx][cIdx-1] = 0;
+                    // checkStatus is used to see if the king is still in check with the new layout
                     chck = checkStatus();
+                    // The code in the if statement below is executed if the Green King is still in check.
                     if(chck === true){
+                        // The two squares are now set to their previous values
                         board[8-rIdx-1][cIdx-2] = pieceType;
                         board[8-rIdx][cIdx-1] = 1;
                     }
                     else{
+                        // The two squares are now set to their previous values
+                        // and the selected square is highlighted.
                         board[8-rIdx-1][cIdx-2] = pieceType;
                         board[8-rIdx][cIdx-1] = 1;
                         leftTop.style.border = "4px solid #ff073a";
@@ -306,16 +331,25 @@ function showPath(pt,rIdx,cIdx) {
                 }
             }
             if(Math.sign(board[8-rIdx-1][cIdx]) === -1) {
+                // The code in the if statement below will execute when the Green King is in check.
                 if(check === true){
+                    // pieceType stores the value of the original piece
                     pieceType = board[8-rIdx-1][cIdx];
+                    // The square being looked at now contains a pawn
                     board[8-rIdx-1][cIdx] = 1;
+                    // The selected square is now empty
                     board[8-rIdx][cIdx-1] = 0;
+                    // checkStatus is used to see if the king is still in check with the new layout
                     chck = checkStatus();
+                    // The code in the if statement below is executed if the Green King is still in check.
                     if(chck === true){
+                        // The two squares are now set to their previous values
                         board[8-rIdx-1][cIdx] = pieceType;
                         board[8-rIdx][cIdx-1] = 1;
                     }
                     else{
+                        // The two squares are now set to their previous values
+                        // and the selected square is highlighted.
                         board[8-rIdx-1][cIdx] = pieceType;
                         board[8-rIdx][cIdx-1] = 1;
                         rightTop.style.border = "4px solid #ff073a";
@@ -336,15 +370,23 @@ function showPath(pt,rIdx,cIdx) {
                     if(path.innerHTML !== '') {
                         break;
                     }
+                    // The code in the if statement below will execute when the Purple King is in check.
                     if(check === true){
+                        // The square being looked at now contains a pawn
                         board[8-i][cIdx-1] = -1;
+                        // The selected square is now empty
                         board[8-rIdx][cIdx-1] = 0;
+                        // checkStatus is used to see if the king is still in check with the new layout
                         chck = checkStatus();
+                        // The code in the if statement below is executed if the Purple King is still in check.
                         if(chck === true){
+                            // The two squares are now set to their previous values, and
+                            // the current iteration in the for loop is skipped.
                             board[8-i][cIdx-1] = 0;
                             board[8-rIdx][cIdx-1] = -1;
                             continue;
                         }
+                        // The two squares are now set to their previous values.
                         board[8-i][cIdx-1] = 0;
                         board[8-rIdx][cIdx-1] = -1;
                     }
@@ -361,15 +403,23 @@ function showPath(pt,rIdx,cIdx) {
                 if(path.innerHTML !== ''){
                     // Do nothing
                 }
+                // The code in the else if statement below will execute when the Green King is in check.
                 else if(check === true){
+                    // The square being looked at now contains a pawn
                     board[8-i][cIdx-1] = -1;
+                    // The selected square is now empty
                     board[8-rIdx][cIdx-1] = 0;
+                    // checkStatus is used to see if the king is still in check with the new layout
                     chck = checkStatus();
+                    // The code in the if statement below is executed if the Green King is still in check.
                     if(chck === true){
+                        // The two squares are now set to their previous values
                         board[8-i][cIdx-1] = 0;
                         board[8-rIdx][cIdx-1] = -1;
                     }
                     else{
+                        // The two squares are now set to their previous values and
+                        // the square being looked at is highlighted.
                         board[8-i][cIdx-1] = 0;
                         board[8-rIdx][cIdx-1] = -1;
                         path.style.border = "4px solid #fbaed2";
@@ -386,16 +436,24 @@ function showPath(pt,rIdx,cIdx) {
             let leftBottom = document.getElementById(`r${i}c${cIdx-1}`);
             let rightBottom = document.getElementById(`r${i}c${cIdx+1}`);
             if(Math.sign(board[8-rIdx+1][cIdx-2]) === 1) {
+                // The code in the if statement below will execute when the Purple King is in check.
                 if(check === true){
+                    // pieceType stores the value of the original piece
                     pieceType = board[8-rIdx+1][cIdx-2];
+                    // The square being looked at now contains a pawn
                     board[8-rIdx+1][cIdx-2] = -1;
+                    // The selected square is now empty
                     board[8-rIdx][cIdx-1] = 0;
+                    // checkStatus is used to see if the king is still in check with the new layout
                     chck = checkStatus();
                     if(chck === true){
+                        // The two squares are now set to their previous values
                         board[8-rIdx+1][cIdx-2] = pieceType;
                         board[8-rIdx][cIdx-1] = -1;
                     }
                     else{
+                        // The two squares are now set to their previous values
+                        // and the selected square is highlighted.
                         board[8-rIdx+1][cIdx-2] = pieceType;
                         board[8-rIdx][cIdx-1] = -1;
                         leftBottom.style.border = "4px solid #ff073a";
@@ -406,16 +464,25 @@ function showPath(pt,rIdx,cIdx) {
                 }
             }
             if(Math.sign(board[8-rIdx+1][cIdx]) === 1) {
+                // The code in the if statement below will execute when the Purple King is in check.
                 if(check === true){
+                    // pieceType stores the value of the original piece
                     pieceType = board[8-rIdx+1][cIdx];
+                    // The square being looked at now contains a pawn
                     board[8-rIdx+1][cIdx] = -1;
+                    // The selected square is now empty
                     board[8-rIdx][cIdx-1] = 0;
+                    // checkStatus is used to see if the king is still in check with the new layout
                     chck = checkStatus();
+                    // The code in the if statement below is executed if the Purple King is still in check.
                     if(chck === true){
+                        // The two squares are now set to their previous values
                         board[8-rIdx+1][cIdx] = pieceType;
                         board[8-rIdx][cIdx-1] = -1;
                     }
                     else{
+                        // The two squares are now set to their previous values
+                        // and the selected square is highlighted.
                         board[8-rIdx+1][cIdx] = pieceType;
                         board[8-rIdx][cIdx-1] = -1;
                         rightBottom.style.border = "4px solid #ff073a";
