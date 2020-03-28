@@ -219,6 +219,7 @@ function showPath(pt,rIdx,cIdx) {
     let path;
     let i;
     let c;
+    let chck;
     /* The if statement below checks the value of pt which reprensents the type of piece
         that the square contains, in this case, a pawn.
      */
@@ -235,6 +236,18 @@ function showPath(pt,rIdx,cIdx) {
                     if(path.innerHTML !== '') {
                         break;
                     }
+                    if(check === true){
+                        board[8-i][cIdx-1] = 1;
+                        board[8-rIdx][cIdx-1] = 0;
+                        chck = checkStatus();
+                        if(chck === true){
+                            board[8-i][cIdx-1] = 0;
+                            board[8-rIdx][cIdx-1] = 1;
+                            continue;
+                        }
+                        board[8-i][cIdx-1] = 0;
+                        board[8-rIdx][cIdx-1] = 1;
+                    }
                     path.style.border = "4px solid #fbaed2";
                 }
             }
@@ -248,6 +261,20 @@ function showPath(pt,rIdx,cIdx) {
                 if(path.innerHTML !== ''){
                     // Do nothing
                 }
+                else if(check === true){
+                    board[8-i][cIdx-1] = 1;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-i][cIdx-1] = 0;
+                        board[8-rIdx][cIdx-1] = 1;
+                    }
+                    else{
+                        board[8-i][cIdx-1] = 0;
+                        board[8-rIdx][cIdx-1] = 1;
+                        path.style.border = "4px solid #fbaed2";
+                    }
+                }
                 else{
                     path.style.border = "4px solid #fbaed2";
                 }
@@ -259,10 +286,44 @@ function showPath(pt,rIdx,cIdx) {
             let leftTop = document.getElementById(`r${i}c${cIdx-1}`);
             let rightTop = document.getElementById(`r${i}c${cIdx+1}`);
             if(Math.sign(board[8-rIdx-1][cIdx-2]) === -1) {
-                leftTop.style.border = "4px solid #ff073a";
+                if(check === true){
+                    pieceType = board[8-rIdx-1][cIdx-2];
+                    board[8-rIdx-1][cIdx-2] = 1;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-rIdx-1][cIdx-2] = pieceType;
+                        board[8-rIdx][cIdx-1] = 1;
+                    }
+                    else{
+                        board[8-rIdx-1][cIdx-2] = pieceType;
+                        board[8-rIdx][cIdx-1] = 1;
+                        leftTop.style.border = "4px solid #ff073a";
+                    }
+                }
+                else{
+                    leftTop.style.border = "4px solid #ff073a";
+                }
             }
             if(Math.sign(board[8-rIdx-1][cIdx]) === -1) {
-                rightTop.style.border = "4px solid #ff073a";
+                if(check === true){
+                    pieceType = board[8-rIdx-1][cIdx];
+                    board[8-rIdx-1][cIdx] = 1;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-rIdx-1][cIdx] = pieceType;
+                        board[8-rIdx][cIdx-1] = 1;
+                    }
+                    else{
+                        board[8-rIdx-1][cIdx] = pieceType;
+                        board[8-rIdx][cIdx-1] = 1;
+                        rightTop.style.border = "4px solid #ff073a";
+                    }
+                }
+                else{
+                    rightTop.style.border = "4px solid #ff073a";
+                }
             }
         }
         /* The code in the esle statement below affects purple pawns */
@@ -275,15 +336,44 @@ function showPath(pt,rIdx,cIdx) {
                     if(path.innerHTML !== '') {
                         break;
                     }
+                    if(check === true){
+                        board[8-i][cIdx-1] = -1;
+                        board[8-rIdx][cIdx-1] = 0;
+                        chck = checkStatus();
+                        if(chck === true){
+                            board[8-i][cIdx-1] = 0;
+                            board[8-rIdx][cIdx-1] = -1;
+                            continue;
+                        }
+                        board[8-i][cIdx-1] = 0;
+                        board[8-rIdx][cIdx-1] = -1;
+                    }
                     path.style.border = "4px solid #fbaed2";
                 }
             }
             /* The else statement below is called when the pawn selected is not on row 7 */
             else{
                 i = rIdx - 1;
+                if(i < 0){
+                    return;
+                }
                 path = document.getElementById(`r${i}c${cIdx}`);
                 if(path.innerHTML !== ''){
                     // Do nothing
+                }
+                else if(check === true){
+                    board[8-i][cIdx-1] = -1;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-i][cIdx-1] = 0;
+                        board[8-rIdx][cIdx-1] = -1;
+                    }
+                    else{
+                        board[8-i][cIdx-1] = 0;
+                        board[8-rIdx][cIdx-1] = -1;
+                        path.style.border = "4px solid #fbaed2";
+                    }
                 }
                 else{
                     path.style.border = "4px solid #fbaed2";
@@ -296,10 +386,44 @@ function showPath(pt,rIdx,cIdx) {
             let leftBottom = document.getElementById(`r${i}c${cIdx-1}`);
             let rightBottom = document.getElementById(`r${i}c${cIdx+1}`);
             if(Math.sign(board[8-rIdx+1][cIdx-2]) === 1) {
-                leftBottom.style.border = "4px solid #ff073a";
+                if(check === true){
+                    pieceType = board[8-rIdx+1][cIdx-2];
+                    board[8-rIdx+1][cIdx-2] = -1;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-rIdx+1][cIdx-2] = pieceType;
+                        board[8-rIdx][cIdx-1] = -1;
+                    }
+                    else{
+                        board[8-rIdx+1][cIdx-2] = pieceType;
+                        board[8-rIdx][cIdx-1] = -1;
+                        leftBottom.style.border = "4px solid #ff073a";
+                    }
+                }
+                else{
+                    leftBottom.style.border = "4px solid #ff073a";
+                }
             }
             if(Math.sign(board[8-rIdx+1][cIdx]) === 1) {
-                rightBottom.style.border = "4px solid #ff073a";
+                if(check === true){
+                    pieceType = board[8-rIdx+1][cIdx];
+                    board[8-rIdx+1][cIdx] = -1;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-rIdx+1][cIdx] = pieceType;
+                        board[8-rIdx][cIdx-1] = -1;
+                    }
+                    else{
+                        board[8-rIdx+1][cIdx] = pieceType;
+                        board[8-rIdx][cIdx-1] = -1;
+                        rightBottom.style.border = "4px solid #ff073a";
+                    }
+                }
+                else{
+                    rightBottom.style.border = "4px solid #ff073a";
+                }
             }
         }
     }
