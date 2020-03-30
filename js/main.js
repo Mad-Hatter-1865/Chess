@@ -30,11 +30,11 @@ function init() {
         [-6,-5,-4,-3,-2,-4,-5,-6],
         [-1,-1,-1,-1,-1,-1,-1,-1],
         [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,5,0,0],
+        [0,0,0,0,-1,0,0,0],
         [0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0],
-        [1,1,1,1,1,1,1,1],
-        [6,5,4,3,2,4,5,6]
+        [1,1,1,2,1,1,1,1],
+        [6,5,4,3,0,4,5,6]
     ];
 
     turn = 1;
@@ -220,6 +220,7 @@ function showPath(pt,rIdx,cIdx) {
     let i;
     let c;
     let chck;
+    let pType;
     /* The if statement below checks the value of pt which reprensents the type of piece
         that the square contains, in this case, a pawn.
      */
@@ -305,7 +306,7 @@ function showPath(pt,rIdx,cIdx) {
                 // The code in the if statement below will execute when the Green King is in check.
                 if(check === true){
                     // pieceType stores the value of the original piece
-                    pieceType = board[8-rIdx-1][cIdx-2];
+                    pType = board[8-rIdx-1][cIdx-2];
                     // The square being looked at now contains a pawn
                     board[8-rIdx-1][cIdx-2] = 1;
                     // The selected square is now empty
@@ -315,13 +316,13 @@ function showPath(pt,rIdx,cIdx) {
                     // The code in the if statement below is executed if the Green King is still in check.
                     if(chck === true){
                         // The two squares are now set to their previous values
-                        board[8-rIdx-1][cIdx-2] = pieceType;
+                        board[8-rIdx-1][cIdx-2] = pType;
                         board[8-rIdx][cIdx-1] = 1;
                     }
                     else{
                         // The two squares are now set to their previous values
                         // and the selected square is highlighted.
-                        board[8-rIdx-1][cIdx-2] = pieceType;
+                        board[8-rIdx-1][cIdx-2] = pType;
                         board[8-rIdx][cIdx-1] = 1;
                         leftTop.style.border = "4px solid #ff073a";
                     }
@@ -334,7 +335,7 @@ function showPath(pt,rIdx,cIdx) {
                 // The code in the if statement below will execute when the Green King is in check.
                 if(check === true){
                     // pieceType stores the value of the original piece
-                    pieceType = board[8-rIdx-1][cIdx];
+                    pType = board[8-rIdx-1][cIdx];
                     // The square being looked at now contains a pawn
                     board[8-rIdx-1][cIdx] = 1;
                     // The selected square is now empty
@@ -344,13 +345,13 @@ function showPath(pt,rIdx,cIdx) {
                     // The code in the if statement below is executed if the Green King is still in check.
                     if(chck === true){
                         // The two squares are now set to their previous values
-                        board[8-rIdx-1][cIdx] = pieceType;
+                        board[8-rIdx-1][cIdx] = pType;
                         board[8-rIdx][cIdx-1] = 1;
                     }
                     else{
                         // The two squares are now set to their previous values
                         // and the selected square is highlighted.
-                        board[8-rIdx-1][cIdx] = pieceType;
+                        board[8-rIdx-1][cIdx] = pType;
                         board[8-rIdx][cIdx-1] = 1;
                         rightTop.style.border = "4px solid #ff073a";
                     }
@@ -439,7 +440,7 @@ function showPath(pt,rIdx,cIdx) {
                 // The code in the if statement below will execute when the Purple King is in check.
                 if(check === true){
                     // pieceType stores the value of the original piece
-                    pieceType = board[8-rIdx+1][cIdx-2];
+                    pType = board[8-rIdx+1][cIdx-2];
                     // The square being looked at now contains a pawn
                     board[8-rIdx+1][cIdx-2] = -1;
                     // The selected square is now empty
@@ -448,13 +449,13 @@ function showPath(pt,rIdx,cIdx) {
                     chck = checkStatus();
                     if(chck === true){
                         // The two squares are now set to their previous values
-                        board[8-rIdx+1][cIdx-2] = pieceType;
+                        board[8-rIdx+1][cIdx-2] = pType;
                         board[8-rIdx][cIdx-1] = -1;
                     }
                     else{
                         // The two squares are now set to their previous values
                         // and the selected square is highlighted.
-                        board[8-rIdx+1][cIdx-2] = pieceType;
+                        board[8-rIdx+1][cIdx-2] = pType;
                         board[8-rIdx][cIdx-1] = -1;
                         leftBottom.style.border = "4px solid #ff073a";
                     }
@@ -467,7 +468,7 @@ function showPath(pt,rIdx,cIdx) {
                 // The code in the if statement below will execute when the Purple King is in check.
                 if(check === true){
                     // pieceType stores the value of the original piece
-                    pieceType = board[8-rIdx+1][cIdx];
+                    pType = board[8-rIdx+1][cIdx];
                     // The square being looked at now contains a pawn
                     board[8-rIdx+1][cIdx] = -1;
                     // The selected square is now empty
@@ -477,13 +478,13 @@ function showPath(pt,rIdx,cIdx) {
                     // The code in the if statement below is executed if the Purple King is still in check.
                     if(chck === true){
                         // The two squares are now set to their previous values
-                        board[8-rIdx+1][cIdx] = pieceType;
+                        board[8-rIdx+1][cIdx] = pType;
                         board[8-rIdx][cIdx-1] = -1;
                     }
                     else{
                         // The two squares are now set to their previous values
                         // and the selected square is highlighted.
-                        board[8-rIdx+1][cIdx] = pieceType;
+                        board[8-rIdx+1][cIdx] = pType;
                         board[8-rIdx][cIdx-1] = -1;
                         rightBottom.style.border = "4px solid #ff073a";
                     }
@@ -687,112 +688,352 @@ function showPath(pt,rIdx,cIdx) {
         for(i = rIdx+1; i<=8;i++){
             path = document.getElementById(`r${i}c${cIdx}`);
             if(Math.sign(board[8-i][cIdx-1]) === 0){
+                if(check === true){
+                    board[8-i][cIdx-1] = 3*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-i][cIdx-1] = 0;
+                        board[8-rIdx][cIdx-1] = 3*turn;
+                        continue;
+                    }
+                    board[8-i][cIdx-1] = 0;
+                    board[8-rIdx][cIdx-1] = 3*turn;
+                }
                 path.style.border = "4px solid #fbaed2";
             }
             else if(Math.sign(board[8-i][cIdx-1]) === turn){
                 break;
             }
             else{
-                path.style.border = "4px solid #ff073a";
-                break;
+                if(check === true){
+                    pType = board[8-i][cIdx-1];
+                    board[8-i][cIdx-1] = 3*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-i][cIdx-1] = pType;
+                        board[8-rIdx][cIdx-1] = 3*turn;
+                    }
+                    else{
+                        board[8-i][cIdx-1] = pType;
+                        board[8-rIdx][cIdx-1] = 3*turn;
+                        path.style.border = "4px solid #ff073a";
+                        break;
+                    }
+                }
+                else{
+                    path.style.border = "4px solid #ff073a";
+                    break;
+                }
             }
         }
         // Squares below Queen
         for(i = rIdx-1; i>=1;i--){
             path = document.getElementById(`r${i}c${cIdx}`);
             if(Math.sign(board[8-i][cIdx-1]) === 0){
+                if(check === true){
+                    board[8-i][cIdx-1] = 3*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-i][cIdx-1] = 0;
+                        board[8-rIdx][cIdx-1] = 3*turn;
+                        continue;
+                    }
+                    board[8-i][cIdx-1] = 0;
+                    board[8-rIdx][cIdx-1] = 3*turn;
+                }
                 path.style.border = "4px solid #fbaed2";
             }
             else if(Math.sign(board[8-i][cIdx-1]) === turn){
                 break;
             }
             else{
-                path.style.border = "4px solid #ff073a";
-                break;
+                if(check === true){
+                    pType = board[8-i][cIdx-1];
+                    board[8-i][cIdx-1] = 3*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-i][cIdx-1] = pType;
+                        board[8-rIdx][cIdx-1] = 3*turn;
+                    }
+                    else{
+                        board[8-i][cIdx-1] = pType;
+                        board[8-rIdx][cIdx-1] = 3*turn;
+                        path.style.border = "4px solid #ff073a";
+                        break;
+                    }
+                }
+                else{
+                    path.style.border = "4px solid #ff073a";
+                    break;
+                }
             }
         }
         // Squares to the right of Queen
         for(i = cIdx+1; i<=8; i++){
             path = document.getElementById(`r${rIdx}c${i}`);
             if(Math.sign(board[8-rIdx][i-1]) === 0){
+                if(check === true){
+                    board[8-rIdx][i-1] = 3*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-rIdx][i-1] = 0;
+                        board[8-rIdx][cIdx-1] = 3*turn;
+                        continue;
+                    }
+                    board[8-rIdx][i-1] = 0;
+                    board[8-rIdx][cIdx-1] = 3*turn;
+                }
                 path.style.border = "4px solid #fbaed2";
             }
             else if(Math.sign(board[8-rIdx][i-1]) === turn){
                 break;
             }
             else{
-                path.style.border = "4px solid #ff073a";
-                break;
+                if(check === true){
+                    pType = board[8-rIdx][i-1];
+                    board[8-rIdx][i-1] = 3*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-rIdx][i-1] = pType;
+                        board[8-rIdx][cIdx-1] = 3*turn;
+                    }
+                    else{
+                        board[8-rIdx][i-1] = pType;
+                        board[8-rIdx][cIdx-1] = 3*turn;
+                        path.style.border = "4px solid #ff073a";
+                        break;
+                    }
+                }
+                else{
+                    path.style.border = "4px solid #ff073a";
+                    break;
+                }
             }
         }
         // Squares to the left of Queen
         for(i= cIdx-1;i>=1;i--){
             path = document.getElementById(`r${rIdx}c${i}`);
             if(Math.sign(board[8-rIdx][i-1]) === 0){
+                if(check === true){
+                    board[8-rIdx][i-1] = 3*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-rIdx][i-1] = 0;
+                        board[8-rIdx][cIdx-1] = 3*turn;
+                        continue;
+                    }
+                    board[8-rIdx][i-1] = 0;
+                    board[8-rIdx][cIdx-1] = 3*turn;
+                }
                 path.style.border = "4px solid #fbaed2";
             }
             else if(Math.sign(board[8-rIdx][i-1]) === turn){
                 break;
             }
             else{
-                path.style.border = "4px solid #ff073a";
-                break;
+                if(check === true){
+                    pType = board[8-rIdx][i-1];
+                    board[8-rIdx][i-1] = 3*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-rIdx][i-1] = pType;
+                        board[8-rIdx][cIdx-1] = 3*turn;
+                    }
+                    else{
+                        board[8-rIdx][i-1] = pType;
+                        board[8-rIdx][cIdx-1] = 3*turn;
+                        path.style.border = "4px solid #ff073a";
+                        break;
+                    }
+                }
+                else{
+                    path.style.border = "4px solid #ff073a";
+                    break;
+                }
             }
         }
         // Upper right diagnal squares
         for(i = rIdx+1, c = cIdx+1; i<=8 && c<=8; i++,c++){
             path = document.getElementById(`r${i}c${c}`);
             if(Math.sign(board[8-i][c-1]) === 0){
+                if(check === true){
+                    board[8-i][c-1] = 3*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-i][c-1] = 0;
+                        board[8-rIdx][cIdx-1] = 3*turn;
+                        continue;
+                    }
+                    board[8-i][c-1] = 0;
+                    board[8-rIdx][cIdx-1] = 3*turn;
+                }
                 path.style.border = "4px solid #fbaed2";
             }
             else if(Math.sign(board[8-i][c-1]) === turn){
                 break;
             }
             else{
-                path.style.border = "4px solid #ff073a";
-                break;
+                if(check === true){
+                    pType = board[8-i][c-1];
+                    board[8-i][c-1] = 3*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-i][c-1] = pType;
+                        board[8-rIdx][cIdx-1] = 3*turn;
+                    }
+                    else{
+                        board[8-i][c-1] = pType;
+                        board[8-rIdx][cIdx-1] = 3*turn;
+                        path.style.border = "4px solid #ff073a";
+                        break;
+                    }
+                }
+                else{
+                    path.style.border = "4px solid #ff073a";
+                    break;
+                }
             }
         }
         // Upper left diagnal squares
         for(i = rIdx+1, c= cIdx-1; i<=8 && c>=1; i++,c--){
             path = document.getElementById(`r${i}c${c}`);
             if(Math.sign(board[8-i][c-1]) === 0){
+                if(check === true){
+                    board[8-i][c-1] = 3*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-i][c-1] = 0;
+                        board[8-rIdx][cIdx-1] = 3*turn;
+                        continue;
+                    }
+                    board[8-i][c-1] = 0;
+                    board[8-rIdx][cIdx-1] = 3*turn;
+                }
                 path.style.border = "4px solid #fbaed2";
             }
             else if(Math.sign(board[8-i][c-1]) === turn){
                 break;
             }
             else{
-                path.style.border = "4px solid #ff073a";
-                break;
+                if(check === true){
+                    pType = board[8-i][c-1];
+                    board[8-i][c-1] = 3*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-i][c-1] = pType;
+                        board[8-rIdx][cIdx-1] = 3*turn;
+                    }
+                    else{
+                        board[8-i][c-1] = pType;
+                        board[8-rIdx][cIdx-1] = 3*turn;
+                        path.style.border = "4px solid #ff073a";
+                        break;
+                    }
+                }
+                else{
+                    path.style.border = "4px solid #ff073a";
+                    break;
+                }
             }
         }
         // Bottom left diagonal squares
         for(i = rIdx-1, c = cIdx-1; i>=1 && c>=1; i--,c--){
             path = document.getElementById(`r${i}c${c}`);
             if(Math.sign(board[8-i][c-1]) === 0){
+                if(check === true){
+                    board[8-i][c-1] = 3*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-i][c-1] = 0;
+                        board[8-rIdx][cIdx-1] = 3*turn;
+                        continue;
+                    }
+                    board[8-i][c-1] = 0;
+                    board[8-rIdx][cIdx-1] = 3*turn;
+                }
                 path.style.border = "4px solid #fbaed2";
             }
             else if(Math.sign(board[8-i][c-1]) === turn){
                 break;
             }
             else{
-                path.style.border = "4px solid #ff073a";
-                break;
+                if(check === true){
+                    pType = board[8-i][c-1];
+                    board[8-i][c-1] = 3*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-i][c-1] = pType;
+                        board[8-rIdx][cIdx-1] = 3*turn;
+                    }
+                    else{
+                        board[8-i][c-1] = pType;
+                        board[8-rIdx][cIdx-1] = 3*turn;
+                        path.style.border = "4px solid #ff073a";
+                        break;
+                    }
+                }
+                else{
+                    path.style.border = "4px solid #ff073a";
+                    break;
+                }
             }
         }
         // Bottom right diagonal squares
         for(i = rIdx-1, c = cIdx+1; i>=1 && c<=8;i--,c++){
             path = document.getElementById(`r${i}c${c}`);
             if(Math.sign(board[8-i][c-1]) === 0){
+                if(check === true){
+                    board[8-i][c-1] = 3*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-i][c-1] = 0;
+                        board[8-rIdx][cIdx-1] = 3*turn;
+                        continue;
+                    }
+                    board[8-i][c-1] = 0;
+                    board[8-rIdx][cIdx-1] = 3*turn;
+                }
                 path.style.border = "4px solid #fbaed2";
             }
             else if(Math.sign(board[8-i][c-1]) === turn){
                 break;
             }
             else{
-                path.style.border = "4px solid #ff073a";
-                break;
+                if(check === true){
+                    pType = board[8-i][c-1];
+                    board[8-i][c-1] = 3*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-i][c-1] = pType;
+                        board[8-rIdx][cIdx-1] = 3*turn;
+                    }
+                    else{
+                        board[8-i][c-1] = pType;
+                        board[8-rIdx][cIdx-1] = 3*turn;
+                        path.style.border = "4px solid #ff073a";
+                        break;
+                    }
+                }
+                else{
+                    path.style.border = "4px solid #ff073a";
+                    break;
+                }
             }
         }
 
@@ -806,56 +1047,176 @@ function showPath(pt,rIdx,cIdx) {
         for(i = rIdx+1, c = cIdx+1; i<=8 && c<=8; i++,c++){
             path = document.getElementById(`r${i}c${c}`);
             if(Math.sign(board[8-i][c-1]) === 0){
+                if(check === true){
+                    board[8-i][c-1] = 4*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-i][c-1] = 0;
+                        board[8-rIdx][cIdx-1] = 4*turn;
+                        continue;
+                    }
+                    board[8-i][c-1] = 0;
+                    board[8-rIdx][cIdx-1] = 4*turn;
+                }
                 path.style.border = "4px solid #fbaed2";
             }
             else if(Math.sign(board[8-i][c-1]) === turn){
                 break;
             }
             else{
-                path.style.border = "4px solid #ff073a";
-                break;
+                if(check === true){
+                    pType = board[8-i][c-1];
+                    board[8-i][c-1] = 4*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-i][c-1] = pType;
+                        board[8-rIdx][cIdx-1] = 4*turn;
+                    }
+                    else{
+                        board[8-i][c-1] = pType;
+                        board[8-rIdx][cIdx-1] = 4*turn;
+                        path.style.border = "4px solid #ff073a";
+                        break;
+                    }
+                }
+                else{
+                    path.style.border = "4px solid #ff073a";
+                    break;
+                }
             }
         }
         // Upper left diagnal squares
         for(i = rIdx+1, c= cIdx-1; i<=8 && c>=1; i++,c--){
             path = document.getElementById(`r${i}c${c}`);
             if(Math.sign(board[8-i][c-1]) === 0){
+                if(check === true){
+                    board[8-i][c-1] = 4*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-i][c-1] = 0;
+                        board[8-rIdx][cIdx-1] = 4*turn;
+                        continue;
+                    }
+                    board[8-i][c-1] = 0;
+                    board[8-rIdx][cIdx-1] = 4*turn;
+                }
                 path.style.border = "4px solid #fbaed2";
             }
             else if(Math.sign(board[8-i][c-1]) === turn){
                 break;
             }
             else{
-                path.style.border = "4px solid #ff073a";
-                break;
+                if(check === true){
+                    pType = board[8-i][c-1];
+                    board[8-i][c-1] = 4*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-i][c-1] = pType;
+                        board[8-rIdx][cIdx-1] = 4*turn;
+                    }
+                    else{
+                        board[8-i][c-1] = pType;
+                        board[8-rIdx][cIdx-1] = 4*turn;
+                        path.style.border = "4px solid #ff073a";
+                        break;
+                    }
+                }
+                else{
+                    path.style.border = "4px solid #ff073a";
+                    break;
+                }
             }
         }
         // Bottom left diagonal squares
         for(i = rIdx-1, c = cIdx-1; i>=1 && c>=1; i--,c--){
             path = document.getElementById(`r${i}c${c}`);
             if(Math.sign(board[8-i][c-1]) === 0){
+                if(check === true){
+                    board[8-i][c-1] = 4*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-i][c-1] = 0;
+                        board[8-rIdx][cIdx-1] = 4*turn;
+                        continue;
+                    }
+                    board[8-i][c-1] = 0;
+                    board[8-rIdx][cIdx-1] = 4*turn;
+                }
                 path.style.border = "4px solid #fbaed2";
             }
             else if(Math.sign(board[8-i][c-1]) === turn){
                 break;
             }
             else{
-                path.style.border = "4px solid #ff073a";
-                break;
+                if(check === true){
+                    pType = board[8-i][c-1];
+                    board[8-i][c-1] = 4*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-i][c-1] = pType;
+                        board[8-rIdx][cIdx-1] = 4*turn;
+                    }
+                    else{
+                        board[8-i][c-1] = pType;
+                        board[8-rIdx][cIdx-1] = 4*turn;
+                        path.style.border = "4px solid #ff073a";
+                        break;
+                    }
+                }
+                else{
+                    path.style.border = "4px solid #ff073a";
+                    break;
+                }
             }
         }
         // Bottom right diagonal squares
         for(i = rIdx-1, c = cIdx+1; i>=1 && c<=8;i--,c++){
             path = document.getElementById(`r${i}c${c}`);
             if(Math.sign(board[8-i][c-1]) === 0){
+                if(check === true){
+                    board[8-i][c-1] = 4*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-i][c-1] = 0;
+                        board[8-rIdx][cIdx-1] = 4*turn;
+                        continue;
+                    }
+                    board[8-i][c-1] = 0;
+                    board[8-rIdx][cIdx-1] = 4*turn;
+                }
                 path.style.border = "4px solid #fbaed2";
             }
             else if(Math.sign(board[8-i][c-1]) === turn){
                 break;
             }
             else{
-                path.style.border = "4px solid #ff073a";
-                break;
+                if(check === true){
+                    pType = board[8-i][c-1];
+                    board[8-i][c-1] = 4*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-i][c-1] = pType;
+                        board[8-rIdx][cIdx-1] = 4*turn;
+                    }
+                    else{
+                        board[8-i][c-1] = pType;
+                        board[8-rIdx][cIdx-1] = 4*turn;
+                        path.style.border = "4px solid #ff073a";
+                        break;
+                    }
+                }
+                else{
+                    path.style.border = "4px solid #ff073a";
+                    break;
+                }
             }
         }
     }
@@ -878,13 +1239,46 @@ function showPath(pt,rIdx,cIdx) {
         }
         else{
             if(Math.sign(board[8-rIdx+2][cIdx-2]) === 0){
-                leftBottom.style.border = "4px solid #fbaed2";
+                if(check === true){
+                    board[8-rIdx+2][cIdx-2] = 5*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-rIdx+2][cIdx-2] = 0;
+                        board[8-rIdx][cIdx-1] = 5*turn;
+                    }
+                    else{
+                        board[8-rIdx+2][cIdx-2] = 0;
+                        board[8-rIdx][cIdx-1] = 5*turn;
+                        leftBottom.style.border = "4px solid #fbaed2";
+                    }
+                }
+                else{
+                    leftBottom.style.border = "4px solid #fbaed2";
+                }
             }
             else if(Math.sign(board[8-rIdx+2][cIdx-2]) === turn){
                 // Do nothing
             }
             else{
-                leftBottom.style.border = "4px solid #ff073a";
+                if(check === true){
+                    pType = board[8-rIdx+2][cIdx-2];
+                    board[8-rIdx+2][cIdx-2] = 5*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-rIdx+2][cIdx-2] = pType;
+                        board[8-rIdx][cIdx-1] = 5*turn;
+                    }
+                    else{
+                        board[8-rIdx+2][cIdx-2] = pType;
+                        board[8-rIdx][cIdx-1] = 5*turn;
+                        leftBottom.style.border = "4px solid #ff073a";
+                    }
+                }
+                else{
+                    leftBottom.style.border = "4px solid #ff073a";
+                }
             }
         }
 
@@ -893,13 +1287,46 @@ function showPath(pt,rIdx,cIdx) {
         }
         else{
             if(Math.sign(board[8-rIdx+1][cIdx-3]) === 0){
-                leftBMid.style.border = "4px solid #fbaed2";
+                if(check === true){
+                    board[8-rIdx+1][cIdx-3] = 5*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-rIdx+1][cIdx-3] = 0;
+                        board[8-rIdx][cIdx-1] = 5*turn;
+                    }
+                    else{
+                        board[8-rIdx+1][cIdx-3] = 0;
+                        board[8-rIdx][cIdx-1] = 5*turn;
+                        leftBMid.style.border = "4px solid #fbaed2";
+                    }
+                }
+                else{
+                    leftBMid.style.border = "4px solid #fbaed2";
+                }
             }
             else if(Math.sign(board[8-rIdx+1][cIdx-3]) === turn){
                 // Do nothing
             }
             else{
-                leftBMid.style.border = "4px solid #ff073a";
+                if(check === true){
+                    pType = board[8-rIdx+1][cIdx-3];
+                        board[8-rIdx+1][cIdx-3] = 5*turn;
+                        board[8-rIdx][cIdx-1] = 0;
+                        chck = checkStatus();
+                        if(chck === true){
+                            board[8-rIdx+1][cIdx-3] = pType;
+                            board[8-rIdx][cIdx-1] = 5*turn;
+                        }
+                        else{
+                            board[8-rIdx+1][cIdx-3] = pType;
+                            board[8-rIdx][cIdx-1] = 5*turn;
+                            leftBMid.style.border = "4px solid #ff073a";
+                        }
+                }
+                else{
+                    leftBMid.style.border = "4px solid #ff073a";
+                }
             }
         }
 
@@ -908,13 +1335,46 @@ function showPath(pt,rIdx,cIdx) {
         }
         else{
             if(Math.sign(board[8-rIdx-1][cIdx-3]) === 0){
-                leftMid.style.border = "4px solid #fbaed2";
+                if(check === true){
+                    board[8-rIdx-1][cIdx-3] = 5*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-rIdx-1][cIdx-3] = 0;
+                        board[8-rIdx][cIdx-1] = 5*turn;
+                    }
+                    else{
+                        board[8-rIdx-1][cIdx-3] = 0;
+                        board[8-rIdx][cIdx-1] = 5*turn;
+                        leftMid.style.border = "4px solid #fbaed2";
+                    }
+                }
+                else{
+                    leftMid.style.border = "4px solid #fbaed2";
+                }
             }
             else if(Math.sign(board[8-rIdx-1][cIdx-3]) === turn){
                 // Do nothing
             }
             else{
-                leftMid.style.border = "4px solid #ff073a";
+                if(check === true){
+                    pType = board[8-rIdx-1][cIdx-3];
+                    board[8-rIdx-1][cIdx-3] = 5*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-rIdx-1][cIdx-3] = pType;
+                        board[8-rIdx][cIdx-1] = 5*turn;
+                    }
+                    else{
+                        board[8-rIdx-1][cIdx-3] = pType;
+                        board[8-rIdx][cIdx-1] = 5*turn;
+                        leftMid.style.border = "4px solid #ff073a";
+                    }
+                }
+                else{
+                    leftMid.style.border = "4px solid #ff073a";
+                }
             }
         }
 
@@ -923,13 +1383,46 @@ function showPath(pt,rIdx,cIdx) {
         }
         else{
             if(Math.sign(board[8-rIdx-2][cIdx-2]) === 0){
-                leftTop.style.border = "4px solid #fbaed2";
+                if(check === true){
+                    board[8-rIdx-2][cIdx-2] = 5*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-rIdx-2][cIdx-2] = 0;
+                        board[8-rIdx][cIdx-1] = 5*turn;
+                    }
+                    else{
+                        board[8-rIdx-2][cIdx-2] = 0;
+                        board[8-rIdx][cIdx-1] = 5*turn;
+                        leftTop.style.border = "4px solid #fbaed2";
+                    }
+                }
+                else{
+                    leftTop.style.border = "4px solid #fbaed2";
+                }
             }
             else if(Math.sign(board[8-rIdx-2][cIdx-2]) === turn){
                 // Do nothing
             }
             else{
-                leftTop.style.border = "4px solid #ff073a";
+                if(check === true){
+                    pType = board[8-rIdx-2][cIdx-2];
+                        board[8-rIdx-2][cIdx-2] = 5*turn;
+                        board[8-rIdx][cIdx-1] = 0;
+                        chck = checkStatus();
+                        if(chck === true){
+                            board[8-rIdx-2][cIdx-2] = pType;
+                            board[8-rIdx][cIdx-1] = 5*turn;
+                        }
+                        else{
+                            board[8-rIdx-2][cIdx-2] = pType;
+                            board[8-rIdx][cIdx-1] = 5*turn;
+                            leftTop.style.border = "4px solid #ff073a";
+                        }
+                }
+                else{
+                    leftTop.style.border = "4px solid #ff073a";
+                }
             }
         }
 
@@ -938,13 +1431,46 @@ function showPath(pt,rIdx,cIdx) {
         }
         else{
             if(Math.sign(board[8-rIdx-2][cIdx]) === 0){
-                rightTop.style.border = "4px solid #fbaed2";
+                if(check === true){
+                    board[8-rIdx-2][cIdx] = 5*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-rIdx-2][cIdx] = 0;
+                        board[8-rIdx][cIdx-1] = 5*turn;
+                    }
+                    else{
+                        board[8-rIdx-2][cIdx] = 0;
+                        board[8-rIdx][cIdx-1] = 5*turn;
+                        rightTop.style.border = "4px solid #fbaed2";
+                    }
+                }
+                else{
+                    rightTop.style.border = "4px solid #fbaed2";
+                }
             }
             else if(Math.sign(board[8-rIdx-2][cIdx]) === turn){
                 // Do nothing
             }
             else{
-                rightTop.style.border = "4px solid #ff073a";
+                if(check === true){
+                    pType = board[8-rIdx-2][cIdx];
+                    board[8-rIdx-2][cIdx] = 5*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-rIdx-2][cIdx] = pType;
+                        board[8-rIdx][cIdx-1] = 5*turn;
+                    }
+                    else{
+                        board[8-rIdx-2][cIdx] = pType;
+                        board[8-rIdx][cIdx-1] = 5*turn;
+                        rightTop.style.border = "4px solid #ff073a";
+                    }
+                }
+                else{
+                    rightTop.style.border = "4px solid #ff073a";
+                }
             }
         }
 
@@ -953,13 +1479,46 @@ function showPath(pt,rIdx,cIdx) {
         }
         else{
             if(Math.sign(board[8-rIdx-1][cIdx+1]) === 0){
-                rightMid.style.border = "4px solid #fbaed2";
+                if(check === true){
+                    board[8-rIdx-1][cIdx+1] = 5*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-rIdx-1][cIdx+1] = 0;
+                        board[8-rIdx][cIdx-1] = 5*turn;
+                    }
+                    else{
+                        board[8-rIdx-1][cIdx+1] = 0;
+                        board[8-rIdx][cIdx-1] = 5*turn;
+                        rightMid.style.border = "4px solid #fbaed2";
+                    }
+                }
+                else{
+                    rightMid.style.border = "4px solid #fbaed2";
+                }
             }
             else if(Math.sign(board[8-rIdx-1][cIdx+1]) === turn){
                 // Do nothing
             }
             else{
-                rightMid.style.border = "4px solid #ff073a";
+                if(check === true){
+                    pType = board[8-rIdx-1][cIdx+1];
+                        board[8-rIdx-1][cIdx+1] = 5*turn;
+                        board[8-rIdx][cIdx-1] = 0;
+                        chck = checkStatus();
+                        if(chck === true){
+                            board[8-rIdx-1][cIdx+1] = pType;
+                            board[8-rIdx][cIdx-1] = 5*turn;
+                        }
+                        else{
+                            board[8-rIdx-1][cIdx+1] = pType;
+                            board[8-rIdx][cIdx-1] = 5*turn;
+                            rightMid.style.border = "4px solid #ff073a";
+                        }
+                }
+                else{
+                    rightMid.style.border = "4px solid #ff073a";
+                }
             }
         }
 
@@ -968,13 +1527,46 @@ function showPath(pt,rIdx,cIdx) {
         }
         else{
             if(Math.sign(board[8-rIdx+1][cIdx+1]) === 0){
-                rightBMid.style.border = "4px solid #fbaed2";
+                if(check === true){
+                    board[8-rIdx+1][cIdx+1] = 5*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-rIdx+1][cIdx+1] = 0;
+                        board[8-rIdx][cIdx-1] = 5*turn;
+                    }
+                    else{
+                        board[8-rIdx+1][cIdx+1] = 0;
+                        board[8-rIdx][cIdx-1] = 5*turn;
+                        rightBMid.style.border = "4px solid #fbaed2";
+                    }
+                }
+                else{
+                    rightBMid.style.border = "4px solid #fbaed2";
+                }
             }
             else if(Math.sign(board[8-rIdx+1][cIdx+1]) === turn){
                 // Do nothing
             }
             else{
-                rightBMid.style.border = "4px solid #ff073a";
+                if(check === true){
+                    pType = board[8-rIdx+1][cIdx+1];
+                    board[8-rIdx+1][cIdx+1] = 5*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-rIdx+1][cIdx+1] = pType;
+                        board[8-rIdx][cIdx-1] = 5*turn;
+                    }
+                    else{
+                        board[8-rIdx+1][cIdx+1] = pType;
+                        board[8-rIdx][cIdx-1] = 5*turn;
+                        rightBMid.style.border = "4px solid #ff073a";
+                    }
+                }
+                else{
+                    rightBMid.style.border = "4px solid #ff073a";
+                }
             }
         }
 
@@ -983,13 +1575,46 @@ function showPath(pt,rIdx,cIdx) {
         }
         else{
             if(Math.sign(board[8-rIdx+2][cIdx]) === 0){
-                rightBottom.style.border = "4px solid #fbaed2";
+                if(check === true){
+                    board[8-rIdx+2][cIdx] = 5*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-rIdx+2][cIdx] = 0;
+                        board[8-rIdx][cIdx-1] = 5*turn;
+                    }
+                    else{
+                        board[8-rIdx+2][cIdx] = 0;
+                        board[8-rIdx][cIdx-1] = 5*turn;
+                        rightBottom.style.border = "4px solid #fbaed2";
+                    }
+                }
+                else{
+                    rightBottom.style.border = "4px solid #fbaed2";
+                }
             }
             else if(Math.sign(board[8-rIdx+2][cIdx]) === turn){
                 // Do nothing
             }
             else{
-                rightBottom.style.border = "4px solid #ff073a";
+                if(check === true){
+                    pType = board[8-rIdx+2][cIdx];
+                    board[8-rIdx+2][cIdx] = 5*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-rIdx+2][cIdx] = pType;
+                        board[8-rIdx][cIdx-1] = 5*turn;
+                    }
+                    else{
+                        board[8-rIdx+2][cIdx] = pType;
+                        board[8-rIdx][cIdx-1] = 5*turn;
+                        rightBottom.style.border = "4px solid #ff073a";
+                    }
+                }
+                else{
+                    rightBottom.style.border = "4px solid #ff073a";
+                }
             }
         }
     }
@@ -999,56 +1624,176 @@ function showPath(pt,rIdx,cIdx) {
         for(i = rIdx+1; i<=8;i++){
             path = document.getElementById(`r${i}c${cIdx}`);
             if(Math.sign(board[8-i][cIdx-1]) === 0){
+                if(check === true){
+                    board[8-i][cIdx-1] = 6*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-i][cIdx-1] = 0;
+                        board[8-rIdx][cIdx-1] = 6*turn;
+                        continue;
+                    }
+                    board[8-i][cIdx-1] = 0;
+                    board[8-rIdx][cIdx-1] = 6*turn;
+                }
                 path.style.border = "4px solid #fbaed2";
             }
             else if(Math.sign(board[8-i][cIdx-1]) === turn){
                 break;
             }
             else{
-                path.style.border = "4px solid #ff073a";
-                break;
+                if(check === true){
+                    pType = board[8-i][cIdx-1];
+                    board[8-i][cIdx-1] = 6*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-i][cIdx-1] = pType;
+                        board[8-rIdx][cIdx-1] = 6*turn;
+                    }
+                    else{
+                        board[8-i][cIdx-1] = pType;
+                        board[8-rIdx][cIdx-1] = 6*turn;
+                        path.style.border = "4px solid #ff073a";
+                        break;
+                    }
+                }
+                else{
+                    path.style.border = "4px solid #ff073a";
+                    break;
+                }
             }
         }
         // Squares below Rook
         for(i = rIdx-1; i>=1;i--){
             path = document.getElementById(`r${i}c${cIdx}`);
             if(Math.sign(board[8-i][cIdx-1]) === 0){
+                if(check === true){
+                    board[8-i][cIdx-1] = 6*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-i][cIdx-1] = 0;
+                        board[8-rIdx][cIdx-1] = 6*turn;
+                        continue;
+                    }
+                    board[8-i][cIdx-1] = 0;
+                    board[8-rIdx][cIdx-1] = 6*turn;
+                }
                 path.style.border = "4px solid #fbaed2";
             }
             else if(Math.sign(board[8-i][cIdx-1]) === turn){
                 break;
             }
             else{
-                path.style.border = "4px solid #ff073a";
-                break;
+                if(check === true){
+                    pType = board[8-i][cIdx-1];
+                    board[8-i][cIdx-1] = 6*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-i][cIdx-1] = pType;
+                        board[8-rIdx][cIdx-1] = 6*turn;
+                    }
+                    else{
+                        board[8-i][cIdx-1] = pType;
+                        board[8-rIdx][cIdx-1] = 6*turn;
+                        path.style.border = "4px solid #ff073a";
+                        break;
+                    }
+                }
+                else{
+                    path.style.border = "4px solid #ff073a";
+                    break;
+                }
             }
         }
         // Squares to the right of Rook
         for(i = cIdx+1; i<=8; i++){
             path = document.getElementById(`r${rIdx}c${i}`);
             if(Math.sign(board[8-rIdx][i-1]) === 0){
+                if(check === true){
+                    board[8-rIdx][i-1] = 6*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-rIdx][i-1] = 0;
+                        board[8-rIdx][cIdx-1] = 6*turn;
+                        continue;
+                    }
+                    board[8-rIdx][i-1] = 0;
+                    board[8-rIdx][cIdx-1] = 6*turn;
+                }
                 path.style.border = "4px solid #fbaed2";
             }
             else if(Math.sign(board[8-rIdx][i-1]) === turn){
                 break;
             }
             else{
-                path.style.border = "4px solid #ff073a";
-                break;
+                if(check === true){
+                    pType = board[8-rIdx][i-1];
+                    board[8-rIdx][i-1] = 6*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-rIdx][i-1] = pType;
+                        board[8-rIdx][cIdx-1] = 6*turn;
+                    }
+                    else{
+                        board[8-rIdx][i-1] = pType;
+                        board[8-rIdx][cIdx-1] = 6*turn;
+                        path.style.border = "4px solid #ff073a";
+                        break;
+                    }
+                }
+                else{
+                    path.style.border = "4px solid #ff073a";
+                    break;
+                }
             }
         }
         // Squares to the left of Rook
         for(i= cIdx-1;i>=1;i--){
             path = document.getElementById(`r${rIdx}c${i}`);
             if(Math.sign(board[8-rIdx][i-1]) === 0){
+                if(check === true){
+                    board[8-rIdx][i-1] = 6*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-rIdx][i-1] = 0;
+                        board[8-rIdx][cIdx-1] = 6*turn;
+                        continue;
+                    }
+                    board[8-rIdx][i-1] = 0;
+                    board[8-rIdx][cIdx-1] = 6*turn;
+                }
                 path.style.border = "4px solid #fbaed2";
             }
             else if(Math.sign(board[8-rIdx][i-1]) === turn){
                 break;
             }
             else{
-                path.style.border = "4px solid #ff073a";
-                break;
+                if(check === true){
+                    pType = board[8-rIdx][i-1];
+                    board[8-rIdx][i-1] = 6*turn;
+                    board[8-rIdx][cIdx-1] = 0;
+                    chck = checkStatus();
+                    if(chck === true){
+                        board[8-rIdx][i-1] = pType;
+                        board[8-rIdx][cIdx-1] = 6*turn;
+                    }
+                    else{
+                        board[8-rIdx][i-1] = pType;
+                        board[8-rIdx][cIdx-1] = 6*turn;
+                        path.style.border = "4px solid #ff073a";
+                        break;
+                    }
+                }
+                else{
+                    path.style.border = "4px solid #ff073a";
+                    break;
+                }
             }
         }
     }
@@ -1092,7 +1837,7 @@ function kingSurrounding(rIdx,cIdx){
    // The code in the if statement below only affects the Green King
    if(turn === 1){
        // The if statement below prevents out of bounds error
-       if(rIdx-1 < 0 || (cIdx-1< 0 || cIdx+1 > 7)){
+       if(rIdx-1 < 0){
            // Do nothing
        }
        else{
@@ -1104,7 +1849,7 @@ function kingSurrounding(rIdx,cIdx){
     // The code in the else statement below only affects the Purple King
     else{
         // The if statement below prevents out of bounds error
-        if(rIdx+1 > 7 || (cIdx-1 < 0 || cIdx+1 > 7)){
+        if(rIdx+1 > 7){
             // Do nothing
         }
         else{
