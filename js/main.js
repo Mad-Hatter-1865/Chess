@@ -30,18 +30,18 @@ function init() {
         [-6,-5,-4,-3,-2,-4,-5,-6],
         [-1,-1,-1,-1,-1,-1,-1,-1],
         [0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,5,0,0],
-        [0,0,0,0,-1,0,0,0],
         [0,0,0,0,0,0,0,0],
-        [1,1,1,2,1,1,1,1],
-        [6,5,4,3,0,4,5,6]
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0],
+        [1,1,1,1,1,1,1,1],
+        [6,5,4,3,2,4,5,6]
     ];
 
     turn = 1;
     winner = null;
     check = null;
     checkMate = null;
-    slctStat = false;
+    slctStat = null;
     render();
 }
 
@@ -169,7 +169,12 @@ function selectSquare(evt) {
         if(selectedSquare.style.borderColor === 'rgb(245, 53, 170)') {
             selectedSquare.style.borderColor = orgnlSelectedSquareClr;
             render();
-            slctStat = false;
+            if(winner === 1 || winner === -1){
+                slctStat = true;
+            }
+            else{
+                slctStat = false;
+            }
             return;
         }
         else if(selectedSquare.style.borderColor === 'rgb(251, 174, 210)' || selectedSquare.style.borderColor === 'rgb(255, 7, 58)'){
@@ -177,9 +182,19 @@ function selectSquare(evt) {
             board[ornglr][ornglc] = 0;
             turn*=-1;
             check = checkStatus();
-            //console.log(check);
+            if(check === true){
+               turn*=-1;
+               render();
+               turn*=-1;
+               winner = CheckMate();
+            }
             render();
-            slctStat = false;
+            if(winner === 1 || winner === -1){
+                slctStat = true;
+            }
+            else{
+                slctStat = false;
+            }
             return;
         }
         /*
@@ -1818,7 +1833,6 @@ function checkStatus(){
             }
         }
     }
-    console.log(`${kingRow} ${kingCol}`);
     bool = kingSurrounding(kingRow,kingCol);
     if(bool === true) return true;
     else return false;
@@ -2259,6 +2273,36 @@ function kingNby(r,c,t){
     return false;
 }
 
+function CheckMate() {
+    let row;
+    let col;
+    let s;
+    let rparam;
+    let cparam;
+    let ptype;
+    console.log("Current turn: " + turn);
+    for(row = 0; row<8; row++){
+        for(col = 0; col<8; col++){
+            if(Math.sign(board[row][col]) === turn){
+                ptype = Math.abs(board[row][col]);
+                rparam = 8 - row;
+                cparam = col + 1;
+                showPath(ptype,rparam,cparam);
+            }
+        }
+    }
+
+    for(row = 0; row<8; row++){
+        for(col = 0; col<8; col++){
+            s = document.getElementById(`r${8-row}c${col+1}`);
+            if(s.style.borderColor === 'rgb(251, 174, 210)' || s.style.borderColor === 'rgb(255, 7, 58)'){
+                return null;
+            }
+        }
+    }
+
+    return turn * -1;
+}
 
 function reset() {
     init();
