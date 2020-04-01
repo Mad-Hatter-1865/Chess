@@ -16,7 +16,7 @@ const PLAYERS = {
 };
 
 /*----- app's state (variables) ------*/
-let board, turn, winner, slctStat, orgnlSelectedSquareClr, pieceType, ornglr, ornglc, check, checkMate;
+let board, turn, winner, slctStat, orgnlSelectedSquareClr, pieceType, ornglr, ornglc, check, pcheck;
 
 /*------ cached element references ------*/
 const msgEl = document.getElementById("msg");
@@ -40,8 +40,8 @@ function init() {
     turn = 1;
     winner = null;
     check = null;
-    checkMate = null;
-    slctStat = null;
+    pcheck = true;
+    slctStat = false;
     render();
 }
 
@@ -179,6 +179,9 @@ function selectSquare(evt) {
         }
         else if(selectedSquare.style.borderColor === 'rgb(251, 174, 210)' || selectedSquare.style.borderColor === 'rgb(255, 7, 58)'){
             board[8-rowIdx][colIdx-1] = pieceType * turn;
+            if(PawnConversion(rowIdx,pieceType) === true){
+                board[8-rowIdx][colIdx-1] = 3 * turn;
+            }
             board[ornglr][ornglc] = 0;
             turn*=-1;
             check = checkStatus();
@@ -253,7 +256,7 @@ function showPath(pt,rIdx,cIdx) {
                         break;
                     }
                     // The code in the if statement below will execute when the Green King is in check.
-                    if(check === true){
+                    if(check === true || pcheck === true){
                         // The square being looked at now contains a pawn
                         board[8-i][cIdx-1] = 1;
                         // The selected square is now empty
@@ -286,7 +289,7 @@ function showPath(pt,rIdx,cIdx) {
                     // Do nothing
                 }
                 // The code in the else if statement below will execute when the Green King is in check.
-                else if(check === true){
+                else if(check === true || pcheck === true){
                     // The square being looked at now contains a pawn
                     board[8-i][cIdx-1] = 1;
                     // The selected square is now empty
@@ -319,7 +322,7 @@ function showPath(pt,rIdx,cIdx) {
             let rightTop = document.getElementById(`r${i}c${cIdx+1}`);
             if(Math.sign(board[8-rIdx-1][cIdx-2]) === -1) {
                 // The code in the if statement below will execute when the Green King is in check.
-                if(check === true){
+                if(check === true || pcheck === true){
                     // pieceType stores the value of the original piece
                     pType = board[8-rIdx-1][cIdx-2];
                     // The square being looked at now contains a pawn
@@ -348,7 +351,7 @@ function showPath(pt,rIdx,cIdx) {
             }
             if(Math.sign(board[8-rIdx-1][cIdx]) === -1) {
                 // The code in the if statement below will execute when the Green King is in check.
-                if(check === true){
+                if(check === true || pcheck === true){
                     // pieceType stores the value of the original piece
                     pType = board[8-rIdx-1][cIdx];
                     // The square being looked at now contains a pawn
@@ -387,7 +390,7 @@ function showPath(pt,rIdx,cIdx) {
                         break;
                     }
                     // The code in the if statement below will execute when the Purple King is in check.
-                    if(check === true){
+                    if(check === true || pcheck === true){
                         // The square being looked at now contains a pawn
                         board[8-i][cIdx-1] = -1;
                         // The selected square is now empty
@@ -420,7 +423,7 @@ function showPath(pt,rIdx,cIdx) {
                     // Do nothing
                 }
                 // The code in the else if statement below will execute when the Green King is in check.
-                else if(check === true){
+                else if(check === true || pcheck === true){
                     // The square being looked at now contains a pawn
                     board[8-i][cIdx-1] = -1;
                     // The selected square is now empty
@@ -453,7 +456,7 @@ function showPath(pt,rIdx,cIdx) {
             let rightBottom = document.getElementById(`r${i}c${cIdx+1}`);
             if(Math.sign(board[8-rIdx+1][cIdx-2]) === 1) {
                 // The code in the if statement below will execute when the Purple King is in check.
-                if(check === true){
+                if(check === true || pcheck === true){
                     // pieceType stores the value of the original piece
                     pType = board[8-rIdx+1][cIdx-2];
                     // The square being looked at now contains a pawn
@@ -481,7 +484,7 @@ function showPath(pt,rIdx,cIdx) {
             }
             if(Math.sign(board[8-rIdx+1][cIdx]) === 1) {
                 // The code in the if statement below will execute when the Purple King is in check.
-                if(check === true){
+                if(check === true || pcheck === true){
                     // pieceType stores the value of the original piece
                     pType = board[8-rIdx+1][cIdx];
                     // The square being looked at now contains a pawn
@@ -703,7 +706,7 @@ function showPath(pt,rIdx,cIdx) {
         for(i = rIdx+1; i<=8;i++){
             path = document.getElementById(`r${i}c${cIdx}`);
             if(Math.sign(board[8-i][cIdx-1]) === 0){
-                if(check === true){
+                if(check === true || pcheck === true){
                     board[8-i][cIdx-1] = 3*turn;
                     board[8-rIdx][cIdx-1] = 0;
                     chck = checkStatus();
@@ -721,7 +724,7 @@ function showPath(pt,rIdx,cIdx) {
                 break;
             }
             else{
-                if(check === true){
+                if(check === true || pcheck === true){
                     pType = board[8-i][cIdx-1];
                     board[8-i][cIdx-1] = 3*turn;
                     board[8-rIdx][cIdx-1] = 0;
@@ -747,7 +750,7 @@ function showPath(pt,rIdx,cIdx) {
         for(i = rIdx-1; i>=1;i--){
             path = document.getElementById(`r${i}c${cIdx}`);
             if(Math.sign(board[8-i][cIdx-1]) === 0){
-                if(check === true){
+                if(check === true || pcheck === true){
                     board[8-i][cIdx-1] = 3*turn;
                     board[8-rIdx][cIdx-1] = 0;
                     chck = checkStatus();
@@ -765,7 +768,7 @@ function showPath(pt,rIdx,cIdx) {
                 break;
             }
             else{
-                if(check === true){
+                if(check === true || pcheck === true){
                     pType = board[8-i][cIdx-1];
                     board[8-i][cIdx-1] = 3*turn;
                     board[8-rIdx][cIdx-1] = 0;
@@ -791,7 +794,7 @@ function showPath(pt,rIdx,cIdx) {
         for(i = cIdx+1; i<=8; i++){
             path = document.getElementById(`r${rIdx}c${i}`);
             if(Math.sign(board[8-rIdx][i-1]) === 0){
-                if(check === true){
+                if(check === true || pcheck === true){
                     board[8-rIdx][i-1] = 3*turn;
                     board[8-rIdx][cIdx-1] = 0;
                     chck = checkStatus();
@@ -809,7 +812,7 @@ function showPath(pt,rIdx,cIdx) {
                 break;
             }
             else{
-                if(check === true){
+                if(check === true || pcheck === true){
                     pType = board[8-rIdx][i-1];
                     board[8-rIdx][i-1] = 3*turn;
                     board[8-rIdx][cIdx-1] = 0;
@@ -835,7 +838,7 @@ function showPath(pt,rIdx,cIdx) {
         for(i= cIdx-1;i>=1;i--){
             path = document.getElementById(`r${rIdx}c${i}`);
             if(Math.sign(board[8-rIdx][i-1]) === 0){
-                if(check === true){
+                if(check === true || pcheck === true){
                     board[8-rIdx][i-1] = 3*turn;
                     board[8-rIdx][cIdx-1] = 0;
                     chck = checkStatus();
@@ -853,7 +856,7 @@ function showPath(pt,rIdx,cIdx) {
                 break;
             }
             else{
-                if(check === true){
+                if(check === true || pcheck === true){
                     pType = board[8-rIdx][i-1];
                     board[8-rIdx][i-1] = 3*turn;
                     board[8-rIdx][cIdx-1] = 0;
@@ -879,7 +882,7 @@ function showPath(pt,rIdx,cIdx) {
         for(i = rIdx+1, c = cIdx+1; i<=8 && c<=8; i++,c++){
             path = document.getElementById(`r${i}c${c}`);
             if(Math.sign(board[8-i][c-1]) === 0){
-                if(check === true){
+                if(check === true || pcheck === true){
                     board[8-i][c-1] = 3*turn;
                     board[8-rIdx][cIdx-1] = 0;
                     chck = checkStatus();
@@ -897,7 +900,7 @@ function showPath(pt,rIdx,cIdx) {
                 break;
             }
             else{
-                if(check === true){
+                if(check === true || pcheck === true){
                     pType = board[8-i][c-1];
                     board[8-i][c-1] = 3*turn;
                     board[8-rIdx][cIdx-1] = 0;
@@ -923,7 +926,7 @@ function showPath(pt,rIdx,cIdx) {
         for(i = rIdx+1, c= cIdx-1; i<=8 && c>=1; i++,c--){
             path = document.getElementById(`r${i}c${c}`);
             if(Math.sign(board[8-i][c-1]) === 0){
-                if(check === true){
+                if(check === true || pcheck === true){
                     board[8-i][c-1] = 3*turn;
                     board[8-rIdx][cIdx-1] = 0;
                     chck = checkStatus();
@@ -941,7 +944,7 @@ function showPath(pt,rIdx,cIdx) {
                 break;
             }
             else{
-                if(check === true){
+                if(check === true || pcheck === true){
                     pType = board[8-i][c-1];
                     board[8-i][c-1] = 3*turn;
                     board[8-rIdx][cIdx-1] = 0;
@@ -967,7 +970,7 @@ function showPath(pt,rIdx,cIdx) {
         for(i = rIdx-1, c = cIdx-1; i>=1 && c>=1; i--,c--){
             path = document.getElementById(`r${i}c${c}`);
             if(Math.sign(board[8-i][c-1]) === 0){
-                if(check === true){
+                if(check === true || pcheck === true){
                     board[8-i][c-1] = 3*turn;
                     board[8-rIdx][cIdx-1] = 0;
                     chck = checkStatus();
@@ -985,7 +988,7 @@ function showPath(pt,rIdx,cIdx) {
                 break;
             }
             else{
-                if(check === true){
+                if(check === true || pcheck === true){
                     pType = board[8-i][c-1];
                     board[8-i][c-1] = 3*turn;
                     board[8-rIdx][cIdx-1] = 0;
@@ -1011,7 +1014,7 @@ function showPath(pt,rIdx,cIdx) {
         for(i = rIdx-1, c = cIdx+1; i>=1 && c<=8;i--,c++){
             path = document.getElementById(`r${i}c${c}`);
             if(Math.sign(board[8-i][c-1]) === 0){
-                if(check === true){
+                if(check === true || pcheck === true){
                     board[8-i][c-1] = 3*turn;
                     board[8-rIdx][cIdx-1] = 0;
                     chck = checkStatus();
@@ -1029,7 +1032,7 @@ function showPath(pt,rIdx,cIdx) {
                 break;
             }
             else{
-                if(check === true){
+                if(check === true || pcheck === true){
                     pType = board[8-i][c-1];
                     board[8-i][c-1] = 3*turn;
                     board[8-rIdx][cIdx-1] = 0;
@@ -1062,7 +1065,7 @@ function showPath(pt,rIdx,cIdx) {
         for(i = rIdx+1, c = cIdx+1; i<=8 && c<=8; i++,c++){
             path = document.getElementById(`r${i}c${c}`);
             if(Math.sign(board[8-i][c-1]) === 0){
-                if(check === true){
+                if(check === true || pcheck === true){
                     board[8-i][c-1] = 4*turn;
                     board[8-rIdx][cIdx-1] = 0;
                     chck = checkStatus();
@@ -1080,7 +1083,7 @@ function showPath(pt,rIdx,cIdx) {
                 break;
             }
             else{
-                if(check === true){
+                if(check === true || pcheck === true){
                     pType = board[8-i][c-1];
                     board[8-i][c-1] = 4*turn;
                     board[8-rIdx][cIdx-1] = 0;
@@ -1106,7 +1109,7 @@ function showPath(pt,rIdx,cIdx) {
         for(i = rIdx+1, c= cIdx-1; i<=8 && c>=1; i++,c--){
             path = document.getElementById(`r${i}c${c}`);
             if(Math.sign(board[8-i][c-1]) === 0){
-                if(check === true){
+                if(check === true || pcheck === true){
                     board[8-i][c-1] = 4*turn;
                     board[8-rIdx][cIdx-1] = 0;
                     chck = checkStatus();
@@ -1124,7 +1127,7 @@ function showPath(pt,rIdx,cIdx) {
                 break;
             }
             else{
-                if(check === true){
+                if(check === true || pcheck === true){
                     pType = board[8-i][c-1];
                     board[8-i][c-1] = 4*turn;
                     board[8-rIdx][cIdx-1] = 0;
@@ -1150,7 +1153,7 @@ function showPath(pt,rIdx,cIdx) {
         for(i = rIdx-1, c = cIdx-1; i>=1 && c>=1; i--,c--){
             path = document.getElementById(`r${i}c${c}`);
             if(Math.sign(board[8-i][c-1]) === 0){
-                if(check === true){
+                if(check === true || pcheck === true){
                     board[8-i][c-1] = 4*turn;
                     board[8-rIdx][cIdx-1] = 0;
                     chck = checkStatus();
@@ -1168,7 +1171,7 @@ function showPath(pt,rIdx,cIdx) {
                 break;
             }
             else{
-                if(check === true){
+                if(check === true || pcheck === true){
                     pType = board[8-i][c-1];
                     board[8-i][c-1] = 4*turn;
                     board[8-rIdx][cIdx-1] = 0;
@@ -1194,7 +1197,7 @@ function showPath(pt,rIdx,cIdx) {
         for(i = rIdx-1, c = cIdx+1; i>=1 && c<=8;i--,c++){
             path = document.getElementById(`r${i}c${c}`);
             if(Math.sign(board[8-i][c-1]) === 0){
-                if(check === true){
+                if(check === true || pcheck === true){
                     board[8-i][c-1] = 4*turn;
                     board[8-rIdx][cIdx-1] = 0;
                     chck = checkStatus();
@@ -1212,7 +1215,7 @@ function showPath(pt,rIdx,cIdx) {
                 break;
             }
             else{
-                if(check === true){
+                if(check === true || pcheck === true){
                     pType = board[8-i][c-1];
                     board[8-i][c-1] = 4*turn;
                     board[8-rIdx][cIdx-1] = 0;
@@ -1254,7 +1257,7 @@ function showPath(pt,rIdx,cIdx) {
         }
         else{
             if(Math.sign(board[8-rIdx+2][cIdx-2]) === 0){
-                if(check === true){
+                if(check === true || pcheck === true){
                     board[8-rIdx+2][cIdx-2] = 5*turn;
                     board[8-rIdx][cIdx-1] = 0;
                     chck = checkStatus();
@@ -1276,7 +1279,7 @@ function showPath(pt,rIdx,cIdx) {
                 // Do nothing
             }
             else{
-                if(check === true){
+                if(check === true || pcheck === true){
                     pType = board[8-rIdx+2][cIdx-2];
                     board[8-rIdx+2][cIdx-2] = 5*turn;
                     board[8-rIdx][cIdx-1] = 0;
@@ -1302,7 +1305,7 @@ function showPath(pt,rIdx,cIdx) {
         }
         else{
             if(Math.sign(board[8-rIdx+1][cIdx-3]) === 0){
-                if(check === true){
+                if(check === true || pcheck === true){
                     board[8-rIdx+1][cIdx-3] = 5*turn;
                     board[8-rIdx][cIdx-1] = 0;
                     chck = checkStatus();
@@ -1324,7 +1327,7 @@ function showPath(pt,rIdx,cIdx) {
                 // Do nothing
             }
             else{
-                if(check === true){
+                if(check === true || pcheck === true){
                     pType = board[8-rIdx+1][cIdx-3];
                         board[8-rIdx+1][cIdx-3] = 5*turn;
                         board[8-rIdx][cIdx-1] = 0;
@@ -1350,7 +1353,7 @@ function showPath(pt,rIdx,cIdx) {
         }
         else{
             if(Math.sign(board[8-rIdx-1][cIdx-3]) === 0){
-                if(check === true){
+                if(check === true || pcheck === true){
                     board[8-rIdx-1][cIdx-3] = 5*turn;
                     board[8-rIdx][cIdx-1] = 0;
                     chck = checkStatus();
@@ -1372,7 +1375,7 @@ function showPath(pt,rIdx,cIdx) {
                 // Do nothing
             }
             else{
-                if(check === true){
+                if(check === true || pcheck === true){
                     pType = board[8-rIdx-1][cIdx-3];
                     board[8-rIdx-1][cIdx-3] = 5*turn;
                     board[8-rIdx][cIdx-1] = 0;
@@ -1398,7 +1401,7 @@ function showPath(pt,rIdx,cIdx) {
         }
         else{
             if(Math.sign(board[8-rIdx-2][cIdx-2]) === 0){
-                if(check === true){
+                if(check === true || pcheck === true){
                     board[8-rIdx-2][cIdx-2] = 5*turn;
                     board[8-rIdx][cIdx-1] = 0;
                     chck = checkStatus();
@@ -1420,7 +1423,7 @@ function showPath(pt,rIdx,cIdx) {
                 // Do nothing
             }
             else{
-                if(check === true){
+                if(check === true || pcheck === true){
                     pType = board[8-rIdx-2][cIdx-2];
                         board[8-rIdx-2][cIdx-2] = 5*turn;
                         board[8-rIdx][cIdx-1] = 0;
@@ -1446,7 +1449,7 @@ function showPath(pt,rIdx,cIdx) {
         }
         else{
             if(Math.sign(board[8-rIdx-2][cIdx]) === 0){
-                if(check === true){
+                if(check === true || pcheck === true){
                     board[8-rIdx-2][cIdx] = 5*turn;
                     board[8-rIdx][cIdx-1] = 0;
                     chck = checkStatus();
@@ -1468,7 +1471,7 @@ function showPath(pt,rIdx,cIdx) {
                 // Do nothing
             }
             else{
-                if(check === true){
+                if(check === true || pcheck === true){
                     pType = board[8-rIdx-2][cIdx];
                     board[8-rIdx-2][cIdx] = 5*turn;
                     board[8-rIdx][cIdx-1] = 0;
@@ -1494,7 +1497,7 @@ function showPath(pt,rIdx,cIdx) {
         }
         else{
             if(Math.sign(board[8-rIdx-1][cIdx+1]) === 0){
-                if(check === true){
+                if(check === true || pcheck === true){
                     board[8-rIdx-1][cIdx+1] = 5*turn;
                     board[8-rIdx][cIdx-1] = 0;
                     chck = checkStatus();
@@ -1516,7 +1519,7 @@ function showPath(pt,rIdx,cIdx) {
                 // Do nothing
             }
             else{
-                if(check === true){
+                if(check === true || pcheck === true){
                     pType = board[8-rIdx-1][cIdx+1];
                         board[8-rIdx-1][cIdx+1] = 5*turn;
                         board[8-rIdx][cIdx-1] = 0;
@@ -1542,7 +1545,7 @@ function showPath(pt,rIdx,cIdx) {
         }
         else{
             if(Math.sign(board[8-rIdx+1][cIdx+1]) === 0){
-                if(check === true){
+                if(check === true || pcheck === true){
                     board[8-rIdx+1][cIdx+1] = 5*turn;
                     board[8-rIdx][cIdx-1] = 0;
                     chck = checkStatus();
@@ -1564,7 +1567,7 @@ function showPath(pt,rIdx,cIdx) {
                 // Do nothing
             }
             else{
-                if(check === true){
+                if(check === true || pcheck === true){
                     pType = board[8-rIdx+1][cIdx+1];
                     board[8-rIdx+1][cIdx+1] = 5*turn;
                     board[8-rIdx][cIdx-1] = 0;
@@ -1590,7 +1593,7 @@ function showPath(pt,rIdx,cIdx) {
         }
         else{
             if(Math.sign(board[8-rIdx+2][cIdx]) === 0){
-                if(check === true){
+                if(check === true || pcheck === true){
                     board[8-rIdx+2][cIdx] = 5*turn;
                     board[8-rIdx][cIdx-1] = 0;
                     chck = checkStatus();
@@ -1612,7 +1615,7 @@ function showPath(pt,rIdx,cIdx) {
                 // Do nothing
             }
             else{
-                if(check === true){
+                if(check === true || pcheck === true){
                     pType = board[8-rIdx+2][cIdx];
                     board[8-rIdx+2][cIdx] = 5*turn;
                     board[8-rIdx][cIdx-1] = 0;
@@ -1639,7 +1642,7 @@ function showPath(pt,rIdx,cIdx) {
         for(i = rIdx+1; i<=8;i++){
             path = document.getElementById(`r${i}c${cIdx}`);
             if(Math.sign(board[8-i][cIdx-1]) === 0){
-                if(check === true){
+                if(check === true || pcheck === true){
                     board[8-i][cIdx-1] = 6*turn;
                     board[8-rIdx][cIdx-1] = 0;
                     chck = checkStatus();
@@ -1657,7 +1660,7 @@ function showPath(pt,rIdx,cIdx) {
                 break;
             }
             else{
-                if(check === true){
+                if(check === true || pcheck === true){
                     pType = board[8-i][cIdx-1];
                     board[8-i][cIdx-1] = 6*turn;
                     board[8-rIdx][cIdx-1] = 0;
@@ -1683,7 +1686,7 @@ function showPath(pt,rIdx,cIdx) {
         for(i = rIdx-1; i>=1;i--){
             path = document.getElementById(`r${i}c${cIdx}`);
             if(Math.sign(board[8-i][cIdx-1]) === 0){
-                if(check === true){
+                if(check === true || pcheck === true){
                     board[8-i][cIdx-1] = 6*turn;
                     board[8-rIdx][cIdx-1] = 0;
                     chck = checkStatus();
@@ -1701,7 +1704,7 @@ function showPath(pt,rIdx,cIdx) {
                 break;
             }
             else{
-                if(check === true){
+                if(check === true || pcheck === true){
                     pType = board[8-i][cIdx-1];
                     board[8-i][cIdx-1] = 6*turn;
                     board[8-rIdx][cIdx-1] = 0;
@@ -1727,7 +1730,7 @@ function showPath(pt,rIdx,cIdx) {
         for(i = cIdx+1; i<=8; i++){
             path = document.getElementById(`r${rIdx}c${i}`);
             if(Math.sign(board[8-rIdx][i-1]) === 0){
-                if(check === true){
+                if(check === true || pcheck === true){
                     board[8-rIdx][i-1] = 6*turn;
                     board[8-rIdx][cIdx-1] = 0;
                     chck = checkStatus();
@@ -1745,7 +1748,7 @@ function showPath(pt,rIdx,cIdx) {
                 break;
             }
             else{
-                if(check === true){
+                if(check === true || pcheck === true){
                     pType = board[8-rIdx][i-1];
                     board[8-rIdx][i-1] = 6*turn;
                     board[8-rIdx][cIdx-1] = 0;
@@ -1771,7 +1774,7 @@ function showPath(pt,rIdx,cIdx) {
         for(i= cIdx-1;i>=1;i--){
             path = document.getElementById(`r${rIdx}c${i}`);
             if(Math.sign(board[8-rIdx][i-1]) === 0){
-                if(check === true){
+                if(check === true || pcheck === true){
                     board[8-rIdx][i-1] = 6*turn;
                     board[8-rIdx][cIdx-1] = 0;
                     chck = checkStatus();
@@ -1789,7 +1792,7 @@ function showPath(pt,rIdx,cIdx) {
                 break;
             }
             else{
-                if(check === true){
+                if(check === true || pcheck === true){
                     pType = board[8-rIdx][i-1];
                     board[8-rIdx][i-1] = 6*turn;
                     board[8-rIdx][cIdx-1] = 0;
@@ -2302,6 +2305,19 @@ function CheckMate() {
     }
 
     return turn * -1;
+}
+
+function PawnConversion(r,p){
+    if(p !== 1) return false;
+    else{
+        if(turn === 1 && 8-r === 0){
+            return true;
+        }
+        else if(turn === -1 && 8-r === 7){
+            return true;
+        }
+    }
+    return false;
 }
 
 function reset() {
