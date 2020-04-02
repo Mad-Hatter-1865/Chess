@@ -16,10 +16,11 @@ const PLAYERS = {
 };
 
 /*----- app's state (variables) ------*/
-let board, turn, winner, slctStat, orgnlSelectedSquareClr, pieceType, ornglr, ornglc, check, pcheck;
+let board, turn, winner, slctStat, orgnlSelectedSquareClr, pieceType, ornglr, ornglc, check, pcheck, moveLcounter, row, cell1, cell2;
 
 /*------ cached element references ------*/
 const msgEl = document.getElementById("msg");
+let table = document.getElementById('movelistTable');
 
 /* ------- event listeners --------*/
 document.querySelector('table.board').addEventListener('click',selectSquare);
@@ -42,6 +43,13 @@ function init() {
     check = null;
     pcheck = true;
     slctStat = false;
+    counter = 0;
+    moveLcounter = 1;
+
+    for(var i = 1;i<table.rows.length;){
+        table.deleteRow(i);
+    }
+
     render();
 }
 
@@ -183,6 +191,7 @@ function selectSquare(evt) {
                 board[8-rowIdx][colIdx-1] = 3 * turn;
             }
             board[ornglr][ornglc] = 0;
+            moveList(rowIdx,colIdx);
             turn*=-1;
             check = checkStatus();
             if(check === true){
@@ -2318,6 +2327,19 @@ function PawnConversion(r,p){
         }
     }
     return false;
+}
+
+function moveList(r,c) {
+    if(turn === 1){
+        row = table.insertRow(-1);
+        cell1 = row.insertCell(0);
+        cell2 = row.insertCell(1);
+        cell1.innerHTML = `${moveLcounter}. ${LETTERS[c]}${r}`;
+    }
+    else{
+        cell2.innerHTML = `${LETTERS[c]}${r}`;
+        moveLcounter++;
+    }
 }
 
 function reset() {
